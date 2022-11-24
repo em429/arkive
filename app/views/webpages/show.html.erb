@@ -1,0 +1,16 @@
+<h1>Page title: <%= @webpage.title %></h1>
+
+Page URL:
+<a href="<%= @webpage.url %>"><%= @webpage.url %> </a>
+
+<ul>
+  <li><%= link_to "Edit", edit_webpage_path(@webpage) %></li>
+   <li><%= link_to "Delete", webpage_path(@webpage), data: {
+                    turbo_method: :delete,
+                    turbo_confirm: "Are you sure?"
+                  } %></li>
+   <li><%= link_to "Hide", webpage_path(@webpage), data: {
+                    turbo_method: :delete,
+                    turbo_confirm: "Are you sure?"
+                  } %></li> 
+</ul>

@@ -1,0 +1,11 @@
+<h1>Archived Web pages</h1>
+
+<ul>
+  <% @webpages.each do |webpage| %>
+    <li>
+      <%= link_to webpage.url, webpage %>
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to "Archive Webpage", new_webpage_path %>
