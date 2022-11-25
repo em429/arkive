@@ -1,24 +1,19 @@
-<h1><%= @webpage.title %></h1>
+<div class="mb-4">
+  <h1 class="text-xl mb-2"><%= @webpage.title %></h1>
 
-<b>URL</b>:
-<a href="<%= @webpage.url %>"><%= @webpage.url %> </a><br>
+  <b>URL</b>:
+  <a href="<%= @webpage.url %>"><%= @webpage.url %> </a><br>
 
-<b>Status</b>:
-<% if @webpage.read_status %>
-Read
-<% else %>
-Unread
-<% end %><br>
+  <b>Status</b>:
+  <% if @webpage.read_status %> Read <% else %> Unread <% end %><br>
 
-<b>Date added</b>: <%= @webpage.created_at %>
+  <b>Date added</b>: <%= @webpage.created_at %>
+</div>
 
-
-
-<ul>
-  <li><%= link_to "Edit", edit_webpage_path(@webpage) %></li>
-  <li><%= link_to "Toggle read status", toggle_read_status_path(@webpage) %></li>
-   <li><%= link_to "Delete", webpage_path(@webpage), data: {
-                    turbo_method: :delete,
-                    turbo_confirm: "Are you sure?"
-                  } %></li>
-</ul>
+<nav class="flex space-x-4">
+    
+    <%= render "button", button_title: "Edit", path: edit_webpage_path(@webpage), turbo_data: {} %>
+    <%= render "button", button_title: "Toggle read status", path: toggle_read_status_path(@webpage), turbo_data: {} %>
+    <%= render "button", button_title: "Delete", path: webpage_path(@webpage), turbo_data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+   
+ </nav>

@@ -13,10 +13,14 @@
 
   <body>
     
-    <div>
-     <a href="<%= root_url  %>">Home</a>
-   </div>
-   
+
+   <div class="container mx-auto w-[500px]">
+     
+	  <nav class="my-10 flex space-x-4">
+	    <a href="<%= root_url %>" class="font-medium px-3 py-2 text-slate-700 rounded-lg hover:bg-slate-100 hover:text-slate-900">Home</a>
+	  </nav>
+	     
     <%= yield %>
+    </div>
   </body>
 </html>

@@ -1,17 +1,64 @@
-<h1>Private Web Archive</h1>
+<h1 class="mb-3 text-2xl">Private Web Archive</h1>
 
-<ul>
-  <% @webpages.each do |webpage| %>
-    <li>
-      <%= link_to webpage.url, webpage %>
-    </li>
-  <% end %>
-</ul>
+<div class="flex flex-col">
+  <div class="overflow-x-auto">
+    <div class="py-2 inline-block min-w-full">
+      <div class="overflow-x-auto">
+      <table class="min-w-full">
+        <thead class="border-b">
+          <tr>
+            <th scope="col" class="text-sm font-medium text-slate-900 px-2 py-2 text-left">
+              Title
+            </th>
+            
+            <th scope="col" class="text-sm font-medium text-slate-900 px-2 py-2 text-left">
+              URL
+            </th>
+            
+            <th scope="col" class="text-sm font-medium text-slate-900 px-2 py-2 text-left">
+            IA 🔗
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          
+         <% @webpages.each do |webpage| %>
+          <tr onclick="window.location='<%= webpage_path(webpage) %>';" class="cursor-pointer border-b transition duration-300 ease-in-out hover:bg-gray-100 ">
+            <td class="text-sm text-slate-900 font-light px-2 py-2 whitespace-nowrap">
+              <%= webpage.title %>
+            </td>
+             
+            <td class="text-sm text-blue-700 font-light px-2 py-2 whitespace-nowrap">
+              <%= link_to webpage.url, webpage %>
+            </td>
+            
+            <td class="text-sm text-slate-900 font-light px-2 py-2 whitespace-nowrap">
+              <%= webpage.internet_archive_url %>
+            </td>
+          </tr>
+        <% end %>
+        
+        </tbody>
+        
+      </table>
+      </div>
+    </div>
+  </div>
+</div>
 
-<%= link_to "+ Add new", new_webpage_path %>
+<div class="space-x-3">
+  
+<button class="bg-slate-100 p-2">
+  <%= link_to "Add new", new_webpage_path %>
+</buttom>
 
 <% if current_page?(root_url) %>
+  <button class="bg-slate-100 p-2">
   <%= link_to "Show read", show_read_path %>
+  </button>
 <% else current_page?(show_read_url) %>
+  <button class="bg-slate-100 p-2">
   <%= link_to "Hide read", root_path %>
+  </button>
 <% end %>
+</div>
