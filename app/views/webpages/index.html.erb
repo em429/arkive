@@ -1,6 +1,6 @@
-<h1 class="mb-3 text-2xl">Private Web Archive</h1>
+<h1 class="mb-3 font-medium text-2xl">Private Web Archive</h1>
 
-<div class="flex flex-col">
+<div class="mb-4 flex flex-col">
   <div class="overflow-x-auto">
     <div class="py-2 inline-block min-w-full">
       <div class="overflow-x-auto">
@@ -12,11 +12,7 @@
             </th>
             
             <th scope="col" class="text-sm font-medium text-slate-900 px-2 py-2 text-left">
-              URL
-            </th>
-            
-            <th scope="col" class="text-sm font-medium text-slate-900 px-2 py-2 text-left">
-            IA 🔗
+              Mirrors
             </th>
           </tr>
         </thead>
@@ -29,12 +25,10 @@
             </td>
              
             <td class="text-sm text-blue-700 font-light px-2 py-2 whitespace-nowrap">
-              <%= link_to webpage.url, webpage %>
+              <a href="<%= webpage.url %>"> Original</a>,
+              <a href="<%= webpage.internet_archive_url %>"> Internet Archive</a>
             </td>
             
-            <td class="text-sm text-slate-900 font-light px-2 py-2 whitespace-nowrap">
-              <%= webpage.internet_archive_url %>
-            </td>
           </tr>
         <% end %>
         

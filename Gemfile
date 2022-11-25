@@ -71,6 +71,5 @@ group :test do
   gem "webdrivers"
 end
 
-gem 'validate_url'
-
 gem "tailwindcss-rails", "~> 2.0"
+gem "validate_url"

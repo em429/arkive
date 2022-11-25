@@ -20,6 +20,10 @@ class WebpagesController < ApplicationController
     @webpage = Webpage.new(webpage_params)
 
     if @webpage.save
+      uri = URI('https://web.archive.org/save')
+      res = Net::HTTP.post_form(uri, :url => @webpage.url, :capture_all => 'on')
+      @webpage.update(internet_archive_url: "https://web.archive.org/web/" + @webpage.url)
+      
       redirect_to @webpage
     else
       render :new, status: :unprocessable_entity
