@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_24_232150) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_25_004651) do
   create_table "webpages", force: :cascade do |t|
     t.string "title"
     t.string "url"
     t.string "internet_archive_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "hidden"
+    t.boolean "read_status", default: false
   end
 
 end

@@ -1,6 +1,11 @@
 class WebpagesController < ApplicationController
   def index
+    @webpages = Webpage.where(read_status: false)
+  end
+
+  def show_read
     @webpages = Webpage.all
+    render "index"
   end
 
   def show
@@ -35,11 +40,17 @@ class WebpagesController < ApplicationController
     end
   end
 
-  # def hide
-  #   @webpage = Webpage.find(params[:id])
-  #   @webpage.update(hidden: true)
-  #   @webpage.save
-  # end
+  def toggle_read_status
+    @webpage = Webpage.find(params[:id])
+    if @webpage.read_status
+      @webpage.update(read_status: false)
+    else
+      @webpage.update(read_status: true)
+    end
+    
+    redirect_to @webpage
+  end
+
 
   def destroy
     @webpage = Webpage.find(params[:id])

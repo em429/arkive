@@ -1,4 +1,4 @@
-<h1>Archived Web pages</h1>
+<h1>Private Web Archive</h1>
 
 <ul>
   <% @webpages.each do |webpage| %>
@@ -8,4 +8,10 @@
   <% end %>
 </ul>
 
-<%= link_to "Archive Webpage", new_webpage_path %>
+<%= link_to "+ Add new", new_webpage_path %>
+
+<% if current_page?(root_url) %>
+  <%= link_to "Show read", show_read_path %>
+<% else current_page?(show_read_url) %>
+  <%= link_to "Hide read", root_path %>
+<% end %>
