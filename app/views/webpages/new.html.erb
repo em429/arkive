@@ -2,4 +2,6 @@
 <h1 class="font-medium text-xl" >Archive a new webpage</h1>
 </div>
 
-<%= render "form", webpage: @webpage %>
+<%= turbo_frame_tag "second_frame" do %>
+  <%= render "form", webpage: @webpage %>
+<% end %>

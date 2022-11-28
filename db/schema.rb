@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_25_004651) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_27_024729) do
   create_table "webpages", force: :cascade do |t|
     t.string "title"
     t.string "url"
@@ -18,6 +18,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_25_004651) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "read_status", default: false
+    t.text "content"
+    t.index ["url"], name: "index_webpages_on_url", unique: true
   end
 
 end
