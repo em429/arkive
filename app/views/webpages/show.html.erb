@@ -20,15 +20,15 @@
     </div>
     
     <nav class="mb-10 flex space-x-4">
-      <%= render "button", button_title: "Edit", path: edit_webpage_path(@webpage), turbo_data: {} %>
+      <%= link_to "Edit", edit_webpage_path(@webpage), class: "btn-primary" %>
       <% if @webpage.read_status? %>
-        <%= render "button", button_title: "Mark Unread", path: toggle_read_status_path(@webpage), turbo_data: {} %>
+        <%= link_to "Mark Unread", toggle_read_status_path(@webpage), class: "btn-primary" %>
       <% else %>
-        <%= render "button", button_title: "Mark Read", path: toggle_read_status_path(@webpage), turbo_data: {} %>
+        <%= link_to "Mark Read", toggle_read_status_path(@webpage), class: "btn-primary" %>
       <% end %>
       
-      <%= render "button", button_title: "Delete", path: webpage_path(@webpage), turbo_data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
-      <%= render "button", button_title: "Home", path: root_path, turbo_data: { } %>
+      <%= link_to "Delete", webpage_path(@webpage), class: "btn-primary", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+      <%= link_to "Home", root_path, class: "btn-primary" %>
     </nav>
     
   <% end %>

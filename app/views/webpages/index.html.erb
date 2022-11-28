@@ -1,68 +1,53 @@
-<div class="w-[500px] mx-auto flex flex-col">
-<h1 class="mb-3 font-medium text-2xl">Private Web Archive</h1>
-  <%= turbo_frame_tag "second_frame" do %>
-  <% end %>
+<div class="w-[700px] mx-auto flex flex-col">
+  
+  <!-- Start of double column on top of page -->
+  <div class="grid grid-cols-2">
+    <div class="col-span-1">
+      <h1 class="mb-3 font-medium text-2xl">Private Web Archive</h1>
+    </div>
+    <div class="col-span-1 justify-self-end">
+      <div class="mb-4 space-x-3">
+        <%= link_to "Add", new_webpage_path(@webpage), class: "btn-primary", data: { turbo_frame: dom_id(Webpage.new) } %>
+        
+        <% if current_page?(root_url) %>
+          <%= link_to "Show Read", show_read_path(@webpage), class: "btn-primary" %>
+        <% else current_page?(show_read_url) %>
+          <%= link_to "Hide Read", root_path, class: "btn-primary" %>
+        <% end %>
+      </div>
+      
+    </div>
+  </div>
+  <!-- end of double column -->
+  
+  <!-- Start of single column section -->
     <div class="mb-3 overflow-x-auto">
       <div class="py-2 inline-block min-w-full">
         <div class="overflow-x-auto">
+
+        <!-- Start of Table -->
         <table class="min-w-full">
-          <thead class="border-b">
+          <thead class="border-b text-sm text-slate-800">
             <tr>
-              <th scope="col" class="text-sm font-medium text-slate-900 px-2 py-2 text-left">
+              <th scope="col" class="font-medium px-2 py-2 text-left">
                 Title
               </th>
               
-              <th scope="col" class="text-sm font-medium text-slate-900 px-2 py-2 text-left">
-                Mirrors
+              <th scope="col" class="font-medium px-2 py-2">
               </th>
-              <th colspan="3"></th>
+              <th scope="col" class="font-medium px-2 py-2"></th>
             </tr>
           </thead>
-          <tbody>
-            
-           <% @webpages.each do |webpage| %>
-            <tr 
-                class="<%= webpage.read_status? ? 'bg-slate-100 hover:bg-slate-200' : '' %> cursor-pointer border-b transition duration-300 ease-in-out hover:bg-violet-100"
-             >
-              <td class="text-sm <%= webpage.read_status? ? 'text-gray-400' : '' %> font-light px-2 py-2 whitespace-nowrap">
-                <a href="<%= webpage_path(webpage) %>" ><%= webpage.title %></a>
-              </td>
-               
-              <td class="text-sm <%= webpage.read_status? ? 'text-blue-300' : 'text-blue-700' %> font-light px-2 py-2 whitespace-nowrap">
-                <a href="<%= webpage.url %>"> Original</a>,
-                <a href="<%= webpage.internet_archive_url %>"> Internet Archive</a>
-              </td>
-              
-              <% if webpage.read_status? %>
-                <td class="text-sm <%= webpage.read_status? ? 'text-gray-400' : '' %> font-light px-2 py-2 whitespace-nowrap">
-                  <%= render "button", button_title: "Mark Unread", path: toggle_read_status_path(webpage), turbo_data: {} %>
-                </td>
-              <% else %>
-                <td class="text-sm <%= webpage.read_status? ? 'text-gray-400' : '' %> font-light px-2 py-2 whitespace-nowrap">
-                  <%= render "button", button_title: "Mark Read", path: toggle_read_status_path(webpage), turbo_data: {} %>
-                </td>
-            <% end %>
-            </tr>
-          <% end %>
-          
+          <tbody id="webpages">
+              <%= render @webpages %>
           </tbody>
           
         </table>
+        <!-- End of Table -->
+        
         </div>
       </div>
   </div>
   
-<div class="space-x-3">
-
-	<%= turbo_frame_tag "first_turbo_frame" do %>
-    <%= render "button", button_title: "Add", path: new_webpage_path(@webpage), turbo_data: { turbo_frame: "second_frame" }  %>
-  <% end %>
-  
-  <% if current_page?(root_url) %>
-    <%= render "button", button_title: "Show read", path: show_read_path(@webpage), turbo_data: {} %>
-  <% else current_page?(show_read_url) %>
-    <%= render "button", button_title: "Hide read", path: root_path, turbo_data: {} %>
-  <% end %>
-  <%= render "button", button_title: "Home", path: root_path, turbo_data: { } %>
-</div>
+  <%= turbo_frame_tag Webpage.new %>
 </div>

@@ -31,3 +31,9 @@
 
 en:
   hello: "Hello world"
+
+  helpers:
+    submit:
+      webpage:
+        create: CREATE WEBPAGE
+        update: UPDATE WEBPAGE

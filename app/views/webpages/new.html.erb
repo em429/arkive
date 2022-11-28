@@ -1,7 +1,12 @@
 <div class="mb-4">
-<h1 class="font-medium text-xl" >Archive a new webpage</h1>
+  <h1 class="font-medium text-xl" >Archive a new webpage</h1>
 </div>
 
-<%= turbo_frame_tag "second_frame" do %>
+<!-- Here @webpage is a new record, so the three following expressions are equivalent:
+     turbo_frame_tag "new_webpage"
+     turbo_frame_tag Webpage.new
+     turbo_frame_tag @webpage
+ -->
+<%= turbo_frame_tag @webpage do %>
   <%= render "form", webpage: @webpage %>
 <% end %>

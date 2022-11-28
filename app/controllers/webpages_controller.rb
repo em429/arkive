@@ -1,10 +1,10 @@
 class WebpagesController < ApplicationController
   def index
-    @webpages = Webpage.where(read_status: false)
+    @webpages = Webpage.where(read_status: false).ordered
   end
 
   def show_read
-    @webpages = Webpage.all
+    @webpages = Webpage.all.ordered
     render "index"
   end
 
@@ -34,8 +34,13 @@ class WebpagesController < ApplicationController
             @webpage.update(content: Readability::Document.new(source).content)
           end
         end
+
+        respond_to do |format|
+          format.html { redirect_to webpages_path, notice: "Successfully added to archive." }
+          format.turbo_stream
+        end
         
-        redirect_to root_path
+        # redirect_to root_path
       else
         render :new, status: :unprocessable_entity
       end
