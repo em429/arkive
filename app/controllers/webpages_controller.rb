@@ -11,6 +11,10 @@ class WebpagesController < ApplicationController
   def show
     @webpage = Webpage.find(params[:id])
   end
+  
+  def show_details_inline
+    @webpage = Webpage.find(params[:id])
+  end
 
   def new
     @webpage = Webpage.new
@@ -44,6 +48,7 @@ class WebpagesController < ApplicationController
       else
         render :new, status: :unprocessable_entity
       end
+      
     rescue StandardError => error
       puts 'exception!'
     end

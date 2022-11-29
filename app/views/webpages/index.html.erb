@@ -1,7 +1,8 @@
-<div class="w-[700px] mx-auto flex flex-col">
+<div class="max-w-[700px]  mx-auto ">
   
   <!-- Start of double column on top of page -->
-  <div class="grid grid-cols-2">
+  <div class="grid grid-cols-1 md:grid-cols-1">
+    
     <div class="col-span-1">
       <h1 class="mb-3 font-medium text-2xl">Private Web Archive</h1>
     </div>
@@ -21,33 +22,20 @@
   <!-- end of double column -->
   
   <!-- Start of single column section -->
-    <div class="mb-3 overflow-x-auto">
+    <div class="mb-3 grid grid-cols-1">
       <div class="py-2 inline-block min-w-full">
-        <div class="overflow-x-auto">
 
         <!-- Start of Table -->
-        <table class="min-w-full">
+        
+        <div class="overflow-hidden sm:shadow-lg rounded-md">        
           
-          <thead class="border-b text-sm text-slate-800">
-            <tr>
-              <th scope="col" class="font-medium px-2 py-2 text-left">
-                Title
-              </th>
-              
-              <th scope="col" class="font-medium px-2 py-2">
-              </th>
-              <th scope="col" class="font-medium px-2 py-2"></th>
-            </tr>
-          </thead>
-          
-          <tbody id="webpages">
+          <div id="webpages">
               <%= render @webpages %>
-          </tbody>
+          </div>
           
-        </table>
+        </div>
         <!-- End of Table -->
         
-        </div>
       </div>
   </div>
   
