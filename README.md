@@ -2,20 +2,26 @@
 
 # Arkive: A private web archive
 
-Arkive is a marriage of three ideas: bookmarking, archiving (mirroring) and read-it-later. Let's see what appeals to me from each, and why I thought a merge is necessary for my purposes. All three have the same core purpose: saving stuff for later, yet go about it in very different ways so each have it's own strenght. So apart from the core appeal, each has more: (at least to me)
+Arkive is a marriage of three ideas: __bookmarking__, __archiving__ (mirroring) and __read-later__ services.
 
-* Bookmarks appeal is easy organization and that they are easy to add stuff to, they are private
-  - The downsides are: linkrot (sites taken down..etc), sync problems
-* (Offsite) Archving's appeal is protecting from linkrot and backing up
-  - The downside: not private, usually lacks organizational options 
-* Read-later service's appeal is not forgetting interesting articles, organization, marking as read, removing visual disturbances, ads ..etc
-  - The downside: linkrot, at the whim of a third-party
+All three have the same core purpose: saving stuff for later, yet go about it in very different ways, each with it's own strenghts and weaknesses. 
 
+Let's look at the pros and cons of each:
+
+* Bookmarks:
+  - Pros: easy to save links to (always just a shortcut away), private, good organization capabiliites
+  - Cons: linkrot (sites taken down..etc), sync problems
+* (Offsite) Archiving:
+  - Pros: protection from linkrot, backing up
+  - Cons: public without option for private
+* Read-later:
+  - Pros: remembering interesting articles, marking as read, organization, removal of visual disturbances and ads
+  - Cons: linkrot, at the whim of a third-party, not fully private
 
 Arkive is designed to solve all these problems at once — an archival / bookmarking / read-later system, that:
   - Protects you from linkrot by:
     - auto-submitting links to the internet archive
-    - extracting readable content and save it in database
+    - extracting readable content and saving it in database
   - Easy and quick to submit links to
     - using the UI
     - using the API: simply POST your url to /
