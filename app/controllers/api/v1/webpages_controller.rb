@@ -4,24 +4,15 @@ module Api
     
       def create
         webpage = Webpage.new(webpage_params)
+        # For some reason, if title is empty through API it becomes `nil`, if it's empty
+        # through the UI, it becomes "" ...
+        if webpage.title == nil
+          webpage.title = fetch_title(webpage)
+        end
         
-        # Save to database
         if webpage.save
-          Thread.new do
-            Rails.application.executor.wrap do
-              # Save to Internet Archive
-              uri = URI('https://web.archive.org/save')
-              res = Net::HTTP.post_form(uri, :url => webpage.url, :capture_all => 'on')
-              webpage.update(internet_archive_url: "https://web.archive.org/web/" + webpage.url)
-
-              # Extract primary readable content and add it to db
-              source = open(webpage.url).read
-              webpage.update(content: Readability::Document.new(source).content)
-            end
-          end
-
-          render json: { status: "success", message: "Webpage archived successfully!" }, status: :created          
-          
+          archive(webpage)
+          render json: { status: "success", message: "Webpage archived successfully!" }, status: :created
         else
           render json: webpage.errors, status: :unprocessable_entity         
         end

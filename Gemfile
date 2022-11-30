@@ -74,3 +74,4 @@ end
 gem "validate_url"
 gem "tailwindcss-rails", "~> 2.0"
 gem "ruby-readability"
+gem "nokogiri"

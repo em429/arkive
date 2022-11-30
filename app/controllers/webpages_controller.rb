@@ -21,36 +21,29 @@ class WebpagesController < ApplicationController
   end
 
   def create
-    begin
-      @webpage = Webpage.new(webpage_params)
-
-      # Save to database
-      if @webpage.save
-        Thread.new do
-          Rails.application.executor.wrap do
-            # Save to Internet Archive
-            uri = URI('https://web.archive.org/save')
-            res = Net::HTTP.post_form(uri, :url => @webpage.url, :capture_all => 'on')
-            @webpage.update(internet_archive_url: "https://web.archive.org/web/" + @webpage.url)
-
-            # Extract primary readable content and add it to db
-            source = open(@webpage.url).read
-            @webpage.update(content: Readability::Document.new(source).content)
-          end
+    @webpage = Webpage.new(webpage_params)
+    
+    if @webpage.title == ""
+      # Set a temporary title until the real one is fetched
+      @webpage.title = "Fetching title.."
+      Thread.new do
+        Rails.application.executor.wrap do
+          # When title comes empty through the API, it's nil for some reason, not "" like here
+          @webpage.title = fetch_title(@webpage)
         end
-
-        respond_to do |format|
-          format.html { redirect_to webpages_path, notice: "Successfully added to archive." }
-          format.turbo_stream
-        end
-        
-        # redirect_to root_path
-      else
-        render :new, status: :unprocessable_entity
       end
+    end
+
+    # Save to database
+    if @webpage.save
+      archive(@webpage)
       
-    rescue StandardError => error
-      puts 'exception!'
+      respond_to do |format|
+        format.html { redirect_to webpages_path, notice: "Successfully added to archive." }
+        format.turbo_stream
+      end
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 

@@ -1,25 +1,31 @@
-<%= form_with model: webpage do |form| %>
-  <div>
-    <span class="label">
-      <%= form.label :title %><br>
-    </span>
-    <%= form.text_field :title %>
-    <% webpage.errors.full_messages_for(:title).each do |message| %>
-      <div><%= message %></div>
-    <% end %>
-  </div>
+<div class="block p-2">
+  <%= form_with model: webpage do |form| %>
 
-  <div class="mb-4">
-    <%= form.label :url %><br>
-    <%= form.text_area :url %><br>
-    <% webpage.errors.full_messages_for(:url).each do |message| %>
-      <div><%= message %></div>
-    <% end %>
-  </div>
+  <div class="grid grid-cols-1 sm:grid-cols-11" >
+ 
+    <div class="sm:col-span-5 form-group">
+       <%= form.text_field :title, class: "rounded-md mb-4 sm:mb-0 border-violet-200", placeholder: "Title" %>
+      <% webpage.errors.full_messages_for(:title).each do |message| %>
+        <div><%= message %></div>
+      <% end %>
+      
+    </div>
 
-<!-- TODO: how to style form.submit? -->
-<span type="button" class="btn-primary">
-    <%= form.submit %>
-  </span>
-    <%= link_to "CANCEL", webpages_path, class: "btn-primary" %>
-<% end %>
+    <div class="sm:col-span-5 form-group" >
+      <%= form.text_field :url, class: "rounded-md mb-4 sm:mb-0 border-violet-200", placeholder: "URL" %><br>
+      <% webpage.errors.full_messages_for(:url).each do |message| %>
+        <div><%= message %></div>
+      <% end %>
+    </div>
+
+    <div class="sm:col-span-1 form-group">
+      <span type="button" class="btn-primary !p-1">
+          <%= form.submit "ADD" %>
+        </span>
+        <%= link_to "CANCEL", webpages_path, class: "btn-primary !p-1" %>
+    </div>
+
+  </div>
+  
+  <% end %>
+</div>

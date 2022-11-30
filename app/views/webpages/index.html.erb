@@ -1,7 +1,10 @@
-<div class="max-w-[700px]  mx-auto ">
+<div class="max-w-[700px]  mx-auto">
+  
+ <!-- Logo --> 
+ <%= image_tag "arkive_mascot.webp", class: "w-40 mx-auto" %>
   
   <!-- Start of double column on top of page -->
-  <div class="grid grid-cols-1 md:grid-cols-1">
+  <div class="grid grid-cols-2">
     
     <div class="col-span-1">
       <h1 class="mb-3 font-medium text-2xl">Private Web Archive</h1>
@@ -27,9 +30,11 @@
 
         <!-- Start of Table -->
         
-        <div class="overflow-hidden sm:shadow-lg rounded-md">        
+        <div class="overflow-hidden sm:shadow-lg border border-violet-50 rounded-md">        
           
           <div id="webpages">
+              <%= turbo_frame_tag Webpage.new %>
+              
               <%= render @webpages %>
           </div>
           
@@ -39,5 +44,4 @@
       </div>
   </div>
   
-  <%= turbo_frame_tag Webpage.new %>
 </div>

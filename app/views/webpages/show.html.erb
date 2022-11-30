@@ -16,7 +16,8 @@
       <b>Status</b>:
       <% if @webpage.read_status %> Read <% else %> Unread <% end %><br>
 
-      <b>Date added</b>: <%= @webpage.created_at %>
+      <b>Date added</b>: <%= @webpage.created_at %></br>
+      <b>Reading Time</b>: about <%= pluralize(@webpage.reading_time, 'minute') %>
     </div>
     
     <nav class="mb-10 flex space-x-4">
