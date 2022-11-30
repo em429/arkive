@@ -1,13 +1,25 @@
-![zois](https://github.com/qirpi/arkive/blob/main/app/assets/images/arkive_mascot.webp)
+<img src="https://github.com/qirpi/arkive/blob/main/app/assets/images/arkive_mascot.webp" width="300px"></img>
 
-# README
+# Arkive: A private web archive
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Arkive is a marriage of three ideas: bookmarking, archiving (mirroring) and read-it-later. Let's see what appeals to me from each, and why I thought a merge is necessary for my purposes.
 
-Things you may want to cover:
+* Bookmarks appeal is easy organization and that they are easy to add stuff to
+  - The downsides are: linkrot, sync is not solved
+* (Offsite) Archving's appeal is protecting from linkrot and backing up
+  - The downside: not private, usually lacks organizational options 
+* Read-it-later's appeal is not forgetting interesting articles and removing visual disturbances, ads ..etc
+  - The downside: linkrot, at the whim of a third-party, hard to sync w bookmarks
 
-* Ruby version
+
+Arkive is designed to solve all these problems at once.
+
+
+
+### Things to cover
+
+
+* Ruby: 2.7.6, Rails: 7.0.4
 
 * System dependencies
 
