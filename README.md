@@ -13,7 +13,7 @@ Let's look at the pros and cons of each:
   - _Cons_: linkrot (sites taken down..etc), sync problems
 * __(Offsite) Archiving__:
   - _Pros_: protection from linkrot, backing up
-  - _Cons_: public without option for private
+  - _Cons_: public without option for private, no local copy (at the whim of provider)
 * __Read-later__:
   - _Pros_: remembering interesting articles, marking as read, organization, removal of visual disturbances and ads
   - _Cons_: linkrot, at the whim of a third-party, not fully private
