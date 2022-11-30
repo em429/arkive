@@ -1,3 +1,5 @@
+![zois](https://github.com/qirpi/arkive/blob/main/app/assets/images/arkive_mascot.webp)
+
 # README
 
 This README would normally document whatever steps are necessary to get the
