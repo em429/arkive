@@ -19,16 +19,16 @@ Let's look at the pros and cons of each:
   - _Cons_: linkrot, at the whim of a third-party, not fully private
 
 __Arkive is designed to solve all these problems at once — an archival / bookmarking / read-later system, that__:
-  - Protects you from linkrot by:
+  - __Protects you from linkrot__ by:
     - Auto-submitting links to the Internet Archive
     - Extracting readable content and saving it in database
-  - Easy and quick to submit links to
+  - __Easy and quick to submit links to__
     - Using the UI
     - Using the API: simply POST your url to /
-      + This makes one-tap save possible with e.g. HTTP Shortcuts on Android using the share menu
+      + This makes __one-tap save__ possible with e.g. HTTP Shortcuts on Android using the share menu
     - If no title is provided, it's fetched automatically
-  - Easy to read anywhere thanks to the responsive webui
-  - Has basic organizational abilities:
+  - __Easy to read anywhere__ thanks to the responsive webui
+  - Helps keeping track:
     - Articles can be marked as read
     - Displays reading time estimates
     - TODO articles can be put into collections
