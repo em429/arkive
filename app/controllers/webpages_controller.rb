@@ -35,15 +35,19 @@ class WebpagesController < ApplicationController
     end
 
     # Save to database
-    if @webpage.save
-      archive(@webpage)
-      
-      respond_to do |format|
-        format.html { redirect_to webpages_path, notice: "Successfully added to archive." }
-        format.turbo_stream
+    begin
+      if @webpage.save
+        archive(@webpage)
+        
+        respond_to do |format|
+          format.html { redirect_to webpages_path, notice: "Successfully added to archive." }
+          format.turbo_stream
+        end
+      else
+        render :new, status: :unprocessable_entity
       end
-    else
-      render :new, status: :unprocessable_entity
+    rescue ActiveRecord::RecordNotUnique
+        render :new_is_duplicate, status: :unprocessable_entity
     end
   end
 
