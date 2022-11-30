@@ -24,7 +24,7 @@ __Arkive is designed to solve all these problems at once — an archival / bookm
     - Extracting readable content and saving it in database
   - __Easy and quick to submit links to__
     - Using the UI
-    - Using the API: simply POST your url to /
+    - Using the API: simply POST your url to `/`
       + This makes __one-tap save__ possible with e.g. HTTP Shortcuts on Android using the share menu
     - If no title is provided, it's fetched automatically
   - __Easy to read anywhere__ thanks to the responsive webui
