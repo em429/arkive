@@ -18,6 +18,9 @@
     </div>
     
    <div class="px-3 md:px-0  mt-10 container mx-auto">
+     <% if logged_in? %>
+       <%= link_to "Profile", current_user %>
+     <% end %>
     <%= yield %>
     </div>
   </body>

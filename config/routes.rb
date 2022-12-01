@@ -1,13 +1,17 @@
 Rails.application.routes.draw do
+  get 'sessions/new'
+  
   resources :users
-  root 'webpages#index'
-
-  # Automagically creates CRUD routes
   resources :webpages
 
+  get "/login", to: "sessions#new"
+  post "/login", to: "sessions#create"
+  delete "/logout", to: "session#destroy"
+
+  root 'webpages#index'
+  
   get "/webpages/:id/toggle_read_status", to: "webpages#toggle_read_status", as: "toggle_read_status"
   get "/show_read", to: "webpages#show_read", as: "show_read"
-  get "/:id/show_details_inline", to: "webpages#show_details_inline", as: "show_details_inline"
 
   # API
   namespace :api do
