@@ -41,7 +41,7 @@ class WebpagesController < ApplicationController
         
         respond_to do |format|
           format.html { redirect_to webpages_path, notice: "Successfully added to archive." }
-          format.turbo_stream
+          format.turbo_stream { flash.now[:notice] = "Successfully added to archive." }
         end
       else
         render :new, status: :unprocessable_entity
@@ -59,7 +59,7 @@ class WebpagesController < ApplicationController
     @webpage = Webpage.find(params[:id])
 
     if @webpage.update(webpage_params)
-      redirect_to @webpage
+      redirect_to @webpage, notice: "Webpage was successfully updated."
     else
       render :edit, status: :unprocessable_entity
     end
@@ -87,9 +87,7 @@ class WebpagesController < ApplicationController
     @webpage = Webpage.find(params[:id])
     @webpage.destroy
 
-    redirect_to root_path, status: :see_other, notice: "Webpage successfully deleted from archive."
-
-    # redirect_to root_path, status: :see_other
+    redirect_to root_path, status: :see_other, notice: "Webpage was successfully deleted."
   end
 
   private

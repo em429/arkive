@@ -3,4 +3,4 @@ import "@hotwired/turbo-rails"
 import "controllers"
 import "flowbite"
 
-
+// Turbo.session.drive = false;
