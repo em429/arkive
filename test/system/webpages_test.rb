@@ -48,7 +48,7 @@ class WebpagesTest < ApplicationSystemTestCase
   	assert_text @webpage.name
 
   	click_on "DELETE", match: :first
-  	assert_no_text @quote.name
+  	assert_no_text @webpage.name
 	end
 end
 

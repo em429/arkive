@@ -18,8 +18,12 @@
     </div>
     
    <div class="px-3 md:px-0  mt-10 container mx-auto">
+     <%= link_to "Home", root_path %>
      <% if logged_in? %>
        <%= link_to "Profile", current_user %>
+       <%= link_to "Log out", logout_path, data: { "turbo-method": :delete } %>
+     <% else %>
+       <%= link_to "Log in", login_path %>
      <% end %>
     <%= yield %>
     </div>

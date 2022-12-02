@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_01_035612) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_01_235432) do
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -18,6 +18,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_01_035612) do
     t.datetime "updated_at", null: false
     t.string "password_digest"
     t.string "remember_digest"
+    t.boolean "admin"
   end
 
   create_table "webpages", force: :cascade do |t|
@@ -28,7 +29,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_01_035612) do
     t.datetime "updated_at", null: false
     t.boolean "read_status", default: false
     t.text "content"
-    t.index ["url"], name: "index_webpages_on_url", unique: true
+    t.integer "user_id"
+    t.index ["url", "user_id"], name: "index_webpages_on_url_and_user_id", unique: true
   end
 
 end

@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  has_many :webpages, dependent: :destroy
+  
   validates :name, presence: true, length: { maximum: 30 }
   
   before_save :downcase_email

@@ -1,10 +1,17 @@
 class WebpagesController < ApplicationController
+  before_action :logged_in_user, only: [:create, :destroy]
+  before_action :correct_user,   only: :destroy
+  
   def index
-    @webpages = Webpage.where(read_status: false).ordered
+    if logged_in?
+      @webpages = current_user.webpages.where(read_status: false).ordered
+    else
+      redirect_to login_path
+    end
   end
 
   def show_read
-    @webpages = Webpage.all.ordered
+    @webpages = current_user.webpages.all.ordered
     render "index"
   end
 
@@ -12,16 +19,12 @@ class WebpagesController < ApplicationController
     @webpage = Webpage.find(params[:id])
   end
   
-  def show_details_inline
-    @webpage = Webpage.find(params[:id])
-  end
-
   def new
     @webpage = Webpage.new
   end
 
   def create
-    @webpage = Webpage.new(webpage_params)
+    @webpage = current_user.webpages.build(webpage_params)
     
     if @webpage.title == ""
       # Set a temporary title until the real one is fetched
@@ -38,7 +41,7 @@ class WebpagesController < ApplicationController
     begin
       if @webpage.save
         archive(@webpage)
-        
+       
         respond_to do |format|
           format.html { redirect_to webpages_path, notice: "Successfully added to archive." }
           format.turbo_stream { flash.now[:notice] = "Successfully added to archive." }
@@ -84,7 +87,7 @@ class WebpagesController < ApplicationController
   end
 
   def destroy
-    @webpage = Webpage.find(params[:id])
+    # @webpage = Webpage.find(params[:id])
     @webpage.destroy
 
     redirect_to root_path, status: :see_other, notice: "Webpage was successfully deleted."
@@ -94,5 +97,9 @@ class WebpagesController < ApplicationController
   	def webpage_params
     	params.require(:webpage).permit(:title, :url, :internet_archive_url)
   	end
-
+  	
+    def correct_user
+      @webpage = current_user.webpages.find_by(id: params[:id])
+      redirect_to(root_url, status: :see_other) if @webpage.nil?
+    end
 end
