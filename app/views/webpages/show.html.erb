@@ -1,9 +1,9 @@
-<div class="mx-auto w-[500px] mb-4">
+<div class="mx-auto mb-4">
   <%= turbo_frame_tag @webpage do %>
     <div class="mb-4">
-      <h1 class="text-xl font-bold mb-2"><%= @webpage.title %></h1>
+      <h1 class="text-xl sm:text-3xl font-bold mb-2"><%= @webpage.title %></h1>
 
-      <b>🔗 Mirrors</b>:<br>
+      <span class="text-md font-bold">🔗 Mirrors:</span>
       <ul class="list-disc list-inside pl-4">
         <li>
           <a class="underline text-blue-500" href="<%= @webpage.url %>">Original</a><br>
@@ -13,11 +13,14 @@
         </li>
       </ul>
 
-      <b>Status</b>:
-      <% if @webpage.read_status %> Read <% else %> Unread <% end %><br>
+      <span class="text-md font-bold">Status:</span>
+      <% if @webpage.read_status %> Read <% else %> Unread <% end %>
+      </br>
 
-      <b>Date added</b>: <%= @webpage.created_at %></br>
-      <b>Reading Time</b>: about <%= pluralize(@webpage.reading_time, 'minute') %>
+      <span class="text-md font-bold">Date added:</span> <%= @webpage.created_at %>
+      </br>
+      <span class="text-md font-bold">Reading Time:</span> about <%= pluralize(@webpage.reading_time, 'minute') %>
+      
     </div>
     
     <nav class="mb-10 flex space-x-4">
@@ -35,7 +38,8 @@
 </div>
 
 <% if not @webpage.content == nil %>
-  <div class="para mb-10 p-4 bg-gray-50 content w-[700px] mx-auto">
+  <h2 class="mb-2 text-md sm:text-2xl font-bold">Captured Content</h2>
+  <div class="para mb-10 sm:p-4 sm:bg-gray-50 content max-w-[700px] mx-auto">
        <%= @webpage.content.html_safe %>
   </div>
 <% end %>
