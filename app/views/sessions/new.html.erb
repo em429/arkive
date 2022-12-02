@@ -1,5 +1,5 @@
+<div class="max-w-[400px] mx-auto">
 <%= form_with(url: login_path, scope: :session,class: "contents") do |form| %>
-
   <div class="my-5">
     <%= form.label :email %>
     <%= form.text_field :email, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
@@ -19,9 +19,10 @@
   </div>
 
   <div class="my-5">
-    <%= form.submit "Log in", class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+    <%= form.submit "Log in", class: "btn-primary" %>
   </div>
 
-  <p>New user? <%= link_to "Sign up now!", new_user_path %></p>
+  <p>New user? <%= link_to "Sign up now!", new_user_path, class: "text-blue-600 underline" %></p>
   
 <% end %>
+</div>

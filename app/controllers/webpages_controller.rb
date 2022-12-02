@@ -1,13 +1,12 @@
 class WebpagesController < ApplicationController
-  before_action :logged_in_user, only: [:create, :destroy]
-  before_action :correct_user,   only: :destroy
-  
+  # Check every time if user is trying to view their own webpage
+  # The index/show_all/create/new action has no id, so there we skip it.
+  #    The index/show_all is already rendered from onlu the current user's stuff.
+  #    And create will only allow creating for current user, of course
+  before_action :correct_user, except: [ :index, :show_read, :create, :new ]
+ 
   def index
-    if logged_in?
-      @webpages = current_user.webpages.where(read_status: false).ordered
-    else
-      redirect_to login_path
-    end
+    @webpages = current_user.webpages.where(read_status: false).ordered
   end
 
   def show_read

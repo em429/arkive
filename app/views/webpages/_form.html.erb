@@ -1,31 +1,54 @@
-<div class="block p-2">
+<div class="p-2 w-full">
+
+  <% webpage.errors.full_messages_for(:title).each do |message| %>
+    <div><%= message %></div>
+  <% end %>
+
+  <% webpage.errors.full_messages_for(:url).each do |message| %>
+    <div><%= message %></div>
+  <% end %>
+  
   <%= form_with model: webpage do |form| %>
 
-  <div class="grid grid-cols-1 sm:grid-cols-11" >
- 
-    <div class="sm:col-span-5 form-group">
-       <%= form.text_field :title, class: "rounded-md mb-4 sm:mb-0 border-violet-200", placeholder: "Title" %>
-      <% webpage.errors.full_messages_for(:title).each do |message| %>
-        <div><%= message %></div>
-      <% end %>
-      
-    </div>
+    <div class="flex space-x-2 ">
+   
+      <%= form.text_field :title, class: "p-2 block shadow rounded-md border border-violet-200 outline-none w-full", placeholder: "Title" %>
+      <%= form.text_field :url, class: "p-2 block shadow rounded-md border border-violet-200 outline-none  w-full", placeholder: "URL" %>
 
-    <div class="sm:col-span-5 form-group" >
-      <%= form.text_field :url, class: "rounded-md mb-4 sm:mb-0 border-violet-200", placeholder: "URL" %><br>
-      <% webpage.errors.full_messages_for(:url).each do |message| %>
-        <div><%= message %></div>
-      <% end %>
-    </div>
+      <div class="flex justify-center space-x-2">
+        
+        <%= button_tag(:class => "p-2 shadow bg-lime-100 rounded") do %>
+        
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+          
+        <% end %>
 
-    <div class="sm:col-span-1 form-group">
-      <span type="button" class="btn-primary !p-1">
-          <%= form.submit "ADD" %>
-        </span>
-        <%= link_to "CANCEL", webpages_path, class: "btn-primary !p-1" %>
-    </div>
+            
+        <% if current_page?(root_path) %>
+          <button class="p-2 rounded shadow bg-slate-100">
+            <%= link_to webpages_path, class: "" do %>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            <% end %>
+          </button>
+        <% else %>
+        <!-- TODO: make this DRY, we only change the path, everything else repeats! -->
+          <button class="p-2 rounded shadow bg-slate-100">
+            <%= link_to @webpage, class: "" do %>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            <% end %>
+          </button>
 
-  </div>
+        <% end %>
+        
+      </div>
+
+    </div>
   
   <% end %>
 </div>

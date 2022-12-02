@@ -1,9 +1,12 @@
 class UsersController < ApplicationController
-  #before_action :set_user, only: %i[ show edit update destroy ]
+  # Don't require login for sign-up form:
+  skip_before_action :require_login, only: [:new, :create]
 
-  before_action :logged_in_user, only: [:index, :edit, :update, :destroy]
-  before_action :correct_user,   only: [:edit, :update]
-  before_action :admin_user,     only: :destroy  
+  # Users can only check their own profile and update it:
+  before_action :correct_user, only: [:show, :edit, :update]
+
+  # Only admin users can list all users and delete them
+  before_action :admin_user, only: [:index, :destroy]
 
   # GET /users or /users.json
   def index

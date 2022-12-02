@@ -1,7 +1,7 @@
 <div class="mx-auto w-[500px] mb-4">
   <%= turbo_frame_tag @webpage do %>
     <div class="mb-4">
-      <h1 class="text-xl mb-2"><%= @webpage.title %></h1>
+      <h1 class="text-xl font-bold mb-2"><%= @webpage.title %></h1>
 
       <b>🔗 Mirrors</b>:<br>
       <ul class="list-disc list-inside pl-4">
@@ -28,8 +28,7 @@
         <%= link_to "Mark Read", toggle_read_status_path(@webpage), class: "btn-primary" %>
       <% end %>
       
-      <%= link_to "Delete", webpage_path(@webpage), class: "btn-primary", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
-      <%= link_to "Home", root_path, class: "btn-primary" %>
+      <%= link_to "Delete", webpage_path(@webpage), class: "btn-primary bg-red-200", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
     </nav>
     
   <% end %>

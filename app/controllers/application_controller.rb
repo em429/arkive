@@ -1,11 +1,15 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery with: :exception
   include Archivers
   include SessionsHelper
 
+  # TODO: check what the below line does
+  protect_from_forgery with: :exception
+
+  before_action :require_login
+ 
   private
     # Confirms a logged-in user.
-    def logged_in_user
+    def require_login
       unless logged_in?
         store_location
         flash[:danger] = "Please log in."
