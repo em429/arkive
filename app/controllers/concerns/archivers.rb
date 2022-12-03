@@ -20,7 +20,7 @@ module Archivers
           source = open(webpage.url).read
           webpage.update(content: Readability::Document.new(
           	source,
-          	:tags => %w[div p pre a tbody tr td],
+          	:tags => %w[div p pre a tbody tr td h1 h2 h3 h4 h5 h6 img],
           	:remove_empty_nodes => true).content)
         end
       end

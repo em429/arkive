@@ -30,7 +30,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.save
         log_in @user
-        format.html { redirect_to user_url(@user), notice: "Zoe welcomes you to your private archive! Woof!" }
+        format.html { redirect_to root_path, notice: "Zoe welcomes you to your private archive! Woof!" }
         # format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new, status: :unprocessable_entity }

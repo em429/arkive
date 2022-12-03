@@ -1,7 +1,7 @@
 <div class="mx-auto mb-4">
   <%= turbo_frame_tag @webpage do %>
     <div class="mb-4">
-      <h1 class="text-xl sm:text-3xl font-bold mb-2"><%= @webpage.title %></h1>
+      <h1 class="text-xl sm:text-3xl font-bold mb-2 sm:mb-6"><%= @webpage.title %></h1>
 
       <span class="text-md font-bold">🔗 Mirrors:</span>
       <ul class="list-disc list-inside pl-4">
@@ -38,13 +38,15 @@
 </div>
 
 <% if not @webpage.content == nil %>
-  <h2 class="mb-2 text-md sm:text-2xl font-bold">Captured Content</h2>
-  <div class="para mb-10 sm:p-4 sm:bg-gray-50 content max-w-[700px] mx-auto">
-       <%= @webpage.content.html_safe %>
+
+  <div class="p-3  bg-slate-100">
+    <h2 class="m-0 text-md sm:text-xl font-bold text-slate-400">Captured Content</h2>
+   </div>
+  <div class="prose prose-slate mb-10 sm:p-4 mx-auto">
+         <%= @webpage.content.html_safe %>
   </div>
 <% end %>
  
  <style>
-   .para p { margin: 25px 0 25px 0; }
    
  </style>
