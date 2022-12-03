@@ -39,3 +39,5 @@
 
 # Node and js stuffs
 node_modules
+
+fly.toml
