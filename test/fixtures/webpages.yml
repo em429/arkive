@@ -1,11 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  title: MyString
-  url: MyString
-  internet_archive_url: MyString
+  title: "Semi-Static Websites with Sitepress"
+  url: "https://fly.io/ruby-dispatch/semi-static-websites/"
+  internet_archive_url: "https://web.archive.org/web/https://fly.io/ruby-dispatch/semi-static-websites/"
 
 two:
-  title: MyString
-  url: MyString
-  internet_archive_url: MyString
+  title: "The Durable Business Series (Part I)"
+  url: "https://tinylittlebusinesses.com/the-durable-business-series-part-1/"
+  internet_archive_url: "https://web.archive.org/web/https://tinylittlebusinesses.com/the-durable-business-series-part-1/"

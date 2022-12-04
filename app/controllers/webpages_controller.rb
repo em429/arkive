@@ -3,21 +3,21 @@ class WebpagesController < ApplicationController
   # The index/show_all/create/new action has no id, so there we skip it.
   #    The index/show_all is already rendered from onlu the current user's stuff.
   #    And create will only allow creating for current user, of course
-  before_action :correct_user, except: [ :index, :show_read, :create, :new ]
- 
+  before_action :correct_user, except: %i[index show_read create new]
+
   def index
     @webpages = current_user.webpages.where(read_status: false).ordered
   end
 
   def show_read
     @webpages = current_user.webpages.all.ordered
-    render "index"
+    render 'index'
   end
 
   def show
     @webpage = Webpage.find(params[:id])
   end
-  
+
   def new
     @webpage = Webpage.new
   end
@@ -26,11 +26,11 @@ class WebpagesController < ApplicationController
     @webpage = current_user.webpages.build(webpage_params)
 
     # Set the Internet Archive URL:
-    @webpage.internet_archive_url = "https://web.archive.org/web/" + @webpage.url
-    
-    if @webpage.title == ""
+    @webpage.internet_archive_url = 'https://web.archive.org/web/' + @webpage.url
+
+    if @webpage.title == ''
       # Set a temporary title until the real one is fetched
-      @webpage.title = "Fetching title.."
+      @webpage.title = 'Fetching title..'
       Thread.new do
         Rails.application.executor.wrap do
           # When title comes empty through the API, it's nil for some reason, not "" like here
@@ -43,16 +43,16 @@ class WebpagesController < ApplicationController
     begin
       if @webpage.save
         archive(@webpage)
-       
+
         respond_to do |format|
-          format.html { redirect_to webpages_path, notice: "Successfully added to archive." }
-          format.turbo_stream { flash.now[:notice] = "Successfully added to archive." }
+          format.html { redirect_to webpages_path, notice: 'Successfully added to archive.' }
+          format.turbo_stream { flash.now[:notice] = 'Successfully added to archive.' }
         end
       else
         render :new, status: :unprocessable_entity
       end
     rescue ActiveRecord::RecordNotUnique
-        render :new_is_duplicate, status: :unprocessable_entity
+      render :new_is_duplicate, status: :unprocessable_entity
     end
   end
 
@@ -64,7 +64,7 @@ class WebpagesController < ApplicationController
     @webpage = Webpage.find(params[:id])
 
     if @webpage.update(webpage_params)
-      redirect_to @webpage, notice: "Webpage was successfully updated."
+      redirect_to @webpage, notice: 'Webpage was successfully updated.'
     else
       render :edit, status: :unprocessable_entity
     end
@@ -72,16 +72,16 @@ class WebpagesController < ApplicationController
 
   def toggle_read_status
     @webpage = Webpage.find(params[:id])
-    
+
     if @webpage.read_status
       @webpage.update(read_status: false)
     else
       @webpage.update(read_status: true)
     end
 
-    if request.referrer == request.base_url + "/"
-      redirect_to root_path 
-    elsif request.referrer == request.base_url + "/show_read"
+    if request.referer == request.base_url + '/'
+      redirect_to root_path
+    elsif request.referer == request.base_url + '/show_read'
       redirect_to show_read_path
     else
       redirect_to @webpage
@@ -92,16 +92,17 @@ class WebpagesController < ApplicationController
     # @webpage = Webpage.find(params[:id])
     @webpage.destroy
 
-    redirect_to root_path, status: :see_other, notice: "Webpage was successfully deleted."
+    redirect_to root_path, status: :see_other, notice: 'Webpage was successfully deleted.'
   end
 
   private
-  	def webpage_params
-    	params.require(:webpage).permit(:title, :url, :internet_archive_url)
-  	end
-  	
-    def correct_user
-      @webpage = current_user.webpages.find_by(id: params[:id])
-      redirect_to(root_url, status: :see_other) if @webpage.nil?
-    end
+
+  def webpage_params
+    params.require(:webpage).permit(:title, :url, :internet_archive_url)
+  end
+
+  def correct_user
+    @webpage = current_user.webpages.find_by(id: params[:id])
+    redirect_to(root_url, status: :see_other) if @webpage.nil?
+  end
 end

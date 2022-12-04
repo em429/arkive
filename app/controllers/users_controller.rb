@@ -1,12 +1,12 @@
 class UsersController < ApplicationController
   # Don't require login for sign-up form:
-  skip_before_action :require_login, only: [:new, :create]
+  skip_before_action :require_login, only: %i[new create]
 
   # Users can only check their own profile and update it:
-  before_action :correct_user, only: [:show, :edit, :update]
+  before_action :correct_user, only: %i[show edit update]
 
   # Only admin users can list all users and delete them
-  before_action :admin_user, only: [:index, :destroy]
+  before_action :admin_user, only: %i[index destroy]
 
   # GET /users or /users.json
   def index
@@ -22,7 +22,7 @@ class UsersController < ApplicationController
   def new
     @user = User.new
   end
-  
+
   # POST /users or /users.json
   def create
     @user = User.new(user_params)
@@ -30,7 +30,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.save
         log_in @user
-        format.html { redirect_to root_path, notice: "Zoe welcomes you to your private archive! Woof!" }
+        format.html { redirect_to root_path, notice: 'Zoe welcomes you to your private archive! Woof!' }
         # format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -49,7 +49,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     respond_to do |format|
       if @user.update(user_params)
-        format.html { redirect_to user_url(@user), notice: "Profile updated" }
+        format.html { redirect_to user_url(@user), notice: 'Profile updated' }
         # format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -63,28 +63,26 @@ class UsersController < ApplicationController
     User.find(params[:id]).destroy
 
     respond_to do |format|
-      format.html { redirect_to users_url, notice: "User deleted" }
-      #format.json { head :no_content }
+      format.html { redirect_to users_url, notice: 'User deleted' }
+      # format.json { head :no_content }
     end
   end
 
   private
 
-    # Only allow a list of trusted parameters through.
-    def user_params
-      params.require(:user).permit(:name, :email, :password, :password_confirmation)
-    end
+  # Only allow a list of trusted parameters through.
+  def user_params
+    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+  end
 
+  # Confirms the correct user.
+  def correct_user
+    @user = User.find(params[:id])
+    redirect_to(root_url) unless @user == current_user
+  end
 
-    # Confirms the correct user.
-    def correct_user
-      @user = User.find(params[:id])
-      redirect_to(root_url) unless @user == current_user
-    end
-
-    # Confirms an admin user.
-    def admin_user
-      redirect_to(root_url) unless current_user.admin?
-    end
-    
+  # Confirms an admin user.
+  def admin_user
+    redirect_to(root_url) unless current_user.admin?
+  end
 end
