@@ -4,7 +4,6 @@ class Webpage < ApplicationRecord
   validates :user_id, presence: true
   scope :ordered, -> { order(id: :desc) }
 
-
   # methods
   #
 

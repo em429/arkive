@@ -11,7 +11,7 @@ class User < ApplicationRecord
                     uniqueness: true
 
   has_secure_password
-  validates :password, length: { minimum: 6 }
+  validates :password, length: { minimum: 8 }
 
   attr_accessor :remember_token, :activation_token, :reset_token
 
