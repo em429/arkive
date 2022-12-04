@@ -1,3 +1,43 @@
 inherit_from: .rubocop_todo.yml
 
 require: rubocop-rails
+
+Rails/ApplicationController:
+  Exclude:
+    - 'app/controllers/api/v1/api_controller.rb'
+
+Style/MethodCallWithoutArgsParentheses:
+  Enabled: false
+
+Rails/ReversibleMigration:
+  Enabled: false
+
+# I think en explicit return makes code much easier to read in many cases so it's
+# anything but redundant.
+Style/RedundantReturn:
+  Enabled: false
+
+Metrics/AbcSize:
+  Max: 28
+
+Metrics/MethodLength:
+  Max: 23
+
+Style/ClassAndModuleChildren:
+  Exclude:
+    - 'test/channels/application_cable/connection_test.rb'
+    - 'test/test_helper.rb'
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Layout/LineLength:
+  Exclude:
+    - 'test/system/webpages_test.rb'
+
+Style/GlobalStdStream:
+  Exclude:
+    - 'config/environments/production.rb'

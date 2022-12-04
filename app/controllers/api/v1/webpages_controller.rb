@@ -12,7 +12,14 @@ module Api
 
         # For some reason, if title is empty through API it becomes `nil`, if it's empty
         # through the UI, it becomes "" ...
-        webpage.title = fetch_title(webpage) if webpage.title.nil?
+        if webpage.title.nil?
+          webpage.title = 'Fetching title..'
+          Thread.new do
+            Rails.application.executor.wrap do
+              webpage.fetch_title
+            end
+          end
+        end
 
         # set owner user to the one requesting
         webpage.user_id = current_user.id

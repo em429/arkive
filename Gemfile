@@ -71,6 +71,7 @@ group :test do
   gem 'webdrivers'
 end
 
+gem 'net-http'
 gem 'nokogiri'
 gem 'ruby-readability'
 gem 'tailwindcss-rails', '~> 2.0'

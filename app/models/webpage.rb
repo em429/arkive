@@ -8,6 +8,10 @@ class Webpage < ApplicationRecord
   # methods
   #
 
+  def fetch_title
+    self.title = Net::HTTP.get(URI(url)).scan(%r{<title>(.*?)</title>})[0][0]
+  end
+
   def reading_time
     words_per_minute = 230
     begin

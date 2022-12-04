@@ -26,15 +26,15 @@ class WebpagesController < ApplicationController
     @webpage = current_user.webpages.build(webpage_params)
 
     # Set the Internet Archive URL:
-    @webpage.internet_archive_url = 'https://web.archive.org/web/' + @webpage.url
+    @webpage.internet_archive_url = "https://web.archive.org/web/#{@webpage.url}"
 
-    if @webpage.title == ''
+    # When title comes empty through the API, it's nil for some reason, not "" like here
+    if @webpage.title.blank?
       # Set a temporary title until the real one is fetched
       @webpage.title = 'Fetching title..'
       Thread.new do
         Rails.application.executor.wrap do
-          # When title comes empty through the API, it's nil for some reason, not "" like here
-          @webpage.title = fetch_title(@webpage)
+          @webpage.fetch_title
         end
       end
     end
@@ -79,9 +79,10 @@ class WebpagesController < ApplicationController
       @webpage.update(read_status: true)
     end
 
-    if request.referer == request.base_url + '/'
+    case request.referer
+    when "#{request.base_url}/"
       redirect_to root_path
-    elsif request.referer == request.base_url + '/show_read'
+    when "#{request.base_url}/show_read"
       redirect_to show_read_path
     else
       redirect_to @webpage

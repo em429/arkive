@@ -18,24 +18,24 @@ module SessionsHelper
   def current_user
     if (user_id = session[:user_id])
       user = User.find_by(id: user_id)
-      @current_user = user if user && session[:session_token] == user.session_token
+      return user if user && session[:session_token] == user.session_token
     elsif (user_id = cookies.encrypted[:user_id])
       user = User.find_by(id: user_id)
-      if user && user.authenticated?(:remember, cookies[:remember_token])
+      if user&.authenticated?(:remember, cookies[:remember_token])
         log_in user
-        @current_user = user
+        return user
       end
     end
   end
 
   # Returns true if the given user is the current user.
   def current_user?(user)
-    user && user == current_user
+    user && user == current_user()
   end
 
   # Returns true if the user is logged in, false otherwise.
   def logged_in?
-    !current_user.nil?
+    !current_user().nil?
   end
 
   # Forgets a persistent session.
@@ -47,9 +47,8 @@ module SessionsHelper
 
   # Logs out the current user.
   def log_out
-    forget(current_user)
+    forget(current_user())
     reset_session
-    @current_user = nil
   end
 
   # Stores the URL trying to be accessed.

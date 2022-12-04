@@ -11,10 +11,11 @@ class ApplicationController < ActionController::Base
 
   # Confirms a logged-in user.
   def require_login
-    unless logged_in?
-      store_location
-      flash[:danger] = 'Please log in.'
-      redirect_to login_url, status: :see_other
-    end
+    return if logged_in?
+
+    # Otherwise flash an error message:
+    store_location
+    flash[:danger] = 'Please log in.'
+    redirect_to login_url, status: :see_other
   end
 end
