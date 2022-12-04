@@ -77,3 +77,5 @@ gem "ruby-readability"
 gem "nokogiri"
 
 gem "bcrypt"
+
+gem 'rubocop-rails', require: false
