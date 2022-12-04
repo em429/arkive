@@ -24,6 +24,9 @@ class WebpagesController < ApplicationController
 
   def create
     @webpage = current_user.webpages.build(webpage_params)
+
+    # Set the Internet Archive URL:
+    @webpage.internet_archive_url = "https://web.archive.org/web/" + @webpage.url
     
     if @webpage.title == ""
       # Set a temporary title until the real one is fetched
