@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-  include Archivers
   include SessionsHelper
 
   # TODO: check what the below line does

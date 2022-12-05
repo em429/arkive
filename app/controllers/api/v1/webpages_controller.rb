@@ -8,11 +8,7 @@ module Api
           return
         end
 
-        # webpage = Webpage.new(webpage_params)
         webpage = current_user.webpages.build(webpage_params)
-
-        # set owner user to the one requesting
-        # webpage.user_id = current_user.id
 
         if webpage.save
           render json: { status: 'success', message: 'Webpage archived successfully!' }, status: :created
