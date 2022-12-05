@@ -19,13 +19,11 @@ class WebpagesInterfaceTest < ActionDispatch::IntegrationTest
     # assert_select 'a[href=?]', '/?page=2'  # Correct pagination link
 
     # Valid submission
-    url = 'Test archive'
     assert_difference 'Webpage.count', 1 do
       post webpages_path, params: { webpage: { url: 'https://lobste.rs' } }
     end
 
     # Duplicate submission
-    url = 'Test 2 archive'
     assert_no_difference 'Webpage.count' do
       post webpages_path, params: { webpage: { url: 'https://lobste.rs' } }
     end
