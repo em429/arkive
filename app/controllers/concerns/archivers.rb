@@ -7,7 +7,7 @@ module Archivers
   #   Net::HTTP.get(URI(webpage.url)).scan(%r{<title>(.*?)</title>})[0][0]
   # end
 
-  def archive(webpage)
+  def deprecated_archive(webpage)
     Thread.new do
       Rails.application.executor.wrap do
         # Save to Internet Archive
@@ -19,7 +19,8 @@ module Archivers
         #       - put into retry queue that gets retried every 10m?
 
         # Extract primary readable content and add it to db
-        source = URI.parse(webpage.internet_archive_url).open.read
+        source = URI.parse("https://web.archive.org/web/#{@webpage.url}").open.read
+
         readable_content = Readability::Document.new(
           source,
           tags: %w[div header h1 h2 h3 h4 h5 h6 h7 p a pre img strong blockquote i b ul li],

@@ -1,15 +1,23 @@
 require 'test_helper'
 
 class WebpageTest < ActiveSupport::TestCase
-  test 'should not save webpage without url' do
-    webpage = Webpage.new
-    assert_not webpage.save, 'Saved webpage without url'
+  def setup
+    @user = users(:michael)
+    @webpage = @user.webpages.build(title: "Hey it's a title!",
+                                    url: 'https://lobste.rs')
   end
 
-  test 'should save webpage with url and user_id only' do
-    webpage = Webpage.new
-    webpage.user_id = 1
-    webpage.url = 'https://lobste.rs'
-    assert webpage.save, "Couldn't save webpage with URL and user_id only"
+  test 'should be valid' do
+    assert @webpage.valid?
+  end
+
+  test 'user id should be present' do
+    @webpage.user_id = nil
+    assert_not @webpage.valid?
+  end
+
+  test 'url should be present' do
+    @webpage.url = '   '
+    assert_not @webpage.valid?
   end
 end

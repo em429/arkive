@@ -1,11 +1,11 @@
 <div class="p-2 w-full">
 
   <% webpage.errors.full_messages_for(:title).each do |message| %>
-    <div><%= message %></div>
+    <div id="error_explanation"><%= message %></div>
   <% end %>
 
   <% webpage.errors.full_messages_for(:url).each do |message| %>
-    <div><%= message %></div>
+    <div id="error_explanation"><%= message %></div>
   <% end %>
   
   <%= form_with model: webpage do |form| %>

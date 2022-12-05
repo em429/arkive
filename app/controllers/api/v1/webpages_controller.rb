@@ -8,24 +8,13 @@ module Api
           return
         end
 
-        webpage = Webpage.new(webpage_params)
-
-        # For some reason, if title is empty through API it becomes `nil`, if it's empty
-        # through the UI, it becomes "" ...
-        if webpage.title.nil?
-          webpage.title = 'Fetching title..'
-          Thread.new do
-            Rails.application.executor.wrap do
-              webpage.fetch_title
-            end
-          end
-        end
+        # webpage = Webpage.new(webpage_params)
+        webpage = current_user.webpages.build(webpage_params)
 
         # set owner user to the one requesting
-        webpage.user_id = current_user.id
+        # webpage.user_id = current_user.id
 
         if webpage.save
-          archive(webpage)
           render json: { status: 'success', message: 'Webpage archived successfully!' }, status: :created
         else
           render json: webpage.errors, status: :unprocessable_entity

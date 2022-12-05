@@ -25,25 +25,9 @@ class WebpagesController < ApplicationController
   def create
     @webpage = current_user.webpages.build(webpage_params)
 
-    # Set the Internet Archive URL:
-    @webpage.internet_archive_url = "https://web.archive.org/web/#{@webpage.url}"
-
-    # When title comes empty through the API, it's nil for some reason, not "" like here
-    if @webpage.title.blank?
-      # Set a temporary title until the real one is fetched
-      @webpage.title = 'Fetching title..'
-      Thread.new do
-        Rails.application.executor.wrap do
-          @webpage.fetch_title
-        end
-      end
-    end
-
     # Save to database
     begin
       if @webpage.save
-        archive(@webpage)
-
         respond_to do |format|
           format.html { redirect_to webpages_path, notice: 'Successfully added to archive.' }
           format.turbo_stream { flash.now[:notice] = 'Successfully added to archive.' }
