@@ -14,8 +14,8 @@
         <%= link_to "Add", new_webpage_path(@webpage), class: "btn-primary", data: { turbo_frame: dom_id(Webpage.new) } %>
         
         <% if current_page?(root_url) %>
-          <%= link_to "Show Read", show_read_path(@webpage), class: "btn-primary" %>
-        <% else current_page?(show_read_url) %>
+          <%= link_to "Show Read", show_read_webpages_path(@webpage), class: "btn-primary" %>
+        <% else current_page?(show_read_webpages_url) %>
           <%= link_to "Hide Read", root_path, class: "btn-primary" %>
         <% end %>
       </div>
