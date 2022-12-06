@@ -1,8 +1,6 @@
 module Api
   module V1
     class ApiController < ActionController::Base
-      include Archivers
-
       before_action :check_basic_auth
       skip_before_action :verify_authenticity_token
 

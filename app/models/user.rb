@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  extend FriendlyId  
+  extend FriendlyId
   friendly_id :name, use: :slugged
   has_many :webpages, dependent: :destroy
 
@@ -13,7 +13,18 @@ class User < ApplicationRecord
                     uniqueness: true
 
   has_secure_password
-  validates :password, length: { minimum: 8 }
+  # For symbols:
+  #  (?=.*[[:^alnum:]]) # At least on symbol
+  PASSWORD_REQUIREMENTS = /\A
+    (?=.{8,}) # At least 8 characters long
+    (?=.*\d) # At least one number
+    (?=.*[a-z]) # At least one lowercase
+    (?=.*[A-Z]) # At least one uppercase
+  /x
+  validates :password, format: {
+    with: PASSWORD_REQUIREMENTS,
+    message: 'must be 8+ characters, and must include: number, lowercase and uppercase letters.'
+  }
 
   attr_accessor :remember_token, :activation_token, :reset_token
 

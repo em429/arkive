@@ -36,16 +36,18 @@ class Webpage < ApplicationRecord
   def submit_to_internet_archive
     Thread.new do
       Rails.application.executor.wrap do
+        source_url = URI.parse(url)
         # Save to Internet Archive
         ia_api_uri = URI('https://web.archive.org/save')
-        res = Net::HTTP.post_form(ia_api_uri, url: url, capture_all: 'on')
+        res = Net::HTTP.post_form(ia_api_uri, url: source_url, capture_all: 'on')
         raise 'ArchiveFailedException' if res.nil?
 
         # TODO: how to recover if response times out or errors?
         #       - put into retry queue that gets retried every 10m?
 
         # Extract primary readable content and add it to db
-        source = URI.parse("https://web.archive.org/web/#{url}").open.read
+        # source = URI.parse("https://web.archive.org/web/#{source_url}").open.read
+        source = source_url.open.read
 
         readable_content = Readability::Document.new(
           source,
@@ -59,9 +61,30 @@ class Webpage < ApplicationRecord
         ).content
 
         # Fix relative links in extracted content:
-        # Regex below matches all strings starting with '/web/' and inserts IA's url in front
-        # TODO: fix the relative link fixing
-        content_with_fixed_links = readable_content.gsub(%r{^/web/}, 'https://web.archive.org')
+        content_with_fixed_links = Nokogiri::HTML(readable_content)
+
+        # find things using 'src' and 'href' parameters
+        tags = {
+          'img' => 'src',
+          'a' => 'href'
+        }
+
+        # Search for the tags and insert the base url when needed
+        content_with_fixed_links.search(tags.keys.join(',')).each do |node|
+          url_param = tags[node.name]
+
+          src = node[url_param]
+          next if src.blank?
+
+          uri = URI.parse(src)
+          next if uri.host
+
+          uri.scheme = source_url.scheme
+          uri.host = source_url.host
+          node[url_param] = uri.to_s
+        end
+
+        # update table with contents
         update(content: content_with_fixed_links)
       end
     end
