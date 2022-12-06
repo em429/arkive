@@ -80,3 +80,5 @@ gem 'validate_url'
 gem 'bcrypt'
 
 gem 'rubocop-rails', require: false
+
+gem 'friendly_id', '~> 5.4.0'

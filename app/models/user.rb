@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  extend FriendlyId  
+  friendly_id :name, use: :slugged
   has_many :webpages, dependent: :destroy
 
   validates :name, presence: true, length: { maximum: 30 }

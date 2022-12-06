@@ -15,7 +15,7 @@ class UsersController < ApplicationController
 
   # GET /users/1 or /users/1.json
   def show
-    @user = User.find(params[:id])
+    @user = User.friendly.find(params[:id])
   end
 
   # GET /users/new
@@ -41,12 +41,12 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
-    @user = User.find(params[:id])
+    @user = User.friendly.find(params[:id])
   end
 
   # PATCH/PUT /users/1 or /users/1.json
   def update
-    @user = User.find(params[:id])
+    @user = User.friendly.find(params[:id])
     respond_to do |format|
       if @user.update(user_params)
         format.html { redirect_to user_url(@user), notice: 'Profile updated' }
@@ -60,7 +60,7 @@ class UsersController < ApplicationController
 
   # DELETE /users/1 or /users/1.json
   def destroy
-    User.find(params[:id]).destroy
+    User.friendly.find(params[:id]).destroy
 
     respond_to do |format|
       format.html { redirect_to users_url, notice: 'User deleted' }
@@ -77,7 +77,7 @@ class UsersController < ApplicationController
 
   # Confirms the correct user.
   def correct_user
-    @user = User.find(params[:id])
+    @user = User.friendly.find(params[:id])
     redirect_to(root_url) unless @user == current_user
   end
 
