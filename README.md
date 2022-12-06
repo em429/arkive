@@ -33,8 +33,25 @@ __Arkive is designed to solve all these problems at once — an archival / bookm
     - Displays reading time estimates
     - TODO articles can be put into collections
 
-### Things to cover
+### Installation / Dev environment setup (without Nix)
+Make sure you have ruby 2.7.x then run
 
+- Make sure you have installed:
+  - ruby 2.7.x
+  - bundler
+  - nodejs 16.x
+  - chromedriver
+  - (optional) foreman or goreman for running the build servers
+- cd into repo and run `bundle install`
+- `gem install mailcatcher`
+- goreman -f Procfile.dev start
+  - or simply start `bin/rails server` and `bin/rails tailwindcss:watch` in separate terminals
+- Arkive should be accessible on http://localhost:3000
+
+### Installation / Dev env setup with Nix
+- `./devenv.sh`
+
+### Things to cover
 
 * Ruby: 2.7.6, Rails: 7.0.4
 
