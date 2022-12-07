@@ -7,6 +7,7 @@ class Webpage < ApplicationRecord
 
   after_create_commit :fetch_title, if: :title_missing?
   after_create_commit :submit_to_internet_archive
+  after_create_commit -> { fetch_readable_content(from_archive: true) }
 
   def reading_time
     words_per_minute = 230
@@ -20,6 +21,8 @@ class Webpage < ApplicationRecord
 
   private
 
+  IA_API_URI = URI('https://web.archive.org/save')
+
   def title_missing?
     title.blank?
   end
@@ -31,27 +34,55 @@ class Webpage < ApplicationRecord
       rescue StandardError => e
         Rails.logger.warn "Error while fetching title: #{e}"
         # TODO: implement Kaya's equation to generate a title without request
-        # 
+        #
       end
     end
   end
 
-  def submit_to_internet_archive
+  # Fix relative links in extracted content:
+  # Search through the DOM for <img> and <a> tags, detect relative links
+  # and replace them
+  def relative_to_absolute(base_url, target_dom)
+    target_dom = Nokogiri::HTML(target_dom)
+    # find things using 'src' and 'href' parameters
+    tags = {
+      'img' => 'src',
+      'a' => 'href'
+    }
+
+    target_dom.search(tags.keys.join(',')).each do |node|
+      url_param = tags[node.name]
+
+      # Skip if src attr is empty
+      src = node[url_param]
+      next if src.blank?
+
+      uri = Addressable::URI.parse(src).normalize
+      next if uri.absolute?
+
+      ia_uri = Addressable::URI.join(base_url, uri.path)
+      node[url_param] = ia_uri.to_s
+
+      # If any of the URLs invalid, log it, leave them as is and continue
+    rescue StandardError => e
+      Rails.logger.warn "Error while parsing content URL during relative to absolute conversion: #{e}"
+      next
+    end
+    return target_dom
+  end
+
+  # Extract primary readable content and add it to db
+  def fetch_readable_content(from_archive: false)
     Thread.new do
       Rails.application.executor.wrap do
-        source_url = URI.parse(url)
-        # Save to Internet Archive
-        ia_api_uri = URI('https://web.archive.org/save')
-        res = Net::HTTP.post_form(ia_api_uri, url: source_url, capture_all: 'on')
-
-        # TODO: how to recover if response times out or errors?
-        #       - put into retry queue that gets retried every 10m?
-        #       - simply warn user w red title?
-
-        # Extract primary readable content and add it to db
-        source = URI.parse("https://web.archive.org/web/#{source_url}").open.read
-        #source = source_url.open.read
-        Rails.logger.debug source
+        source_uri = Addressable::URI.parse(url)
+        if from_archive
+          source = URI.open(Addressable::URI.parse("https://web.archive.org/web/#{source_uri}")).read
+          base_uri = 'https://web.archive.org/web/'
+        else
+          source = URI.open(source_uri).read
+          base_uri = source_uri.site
+        end
 
         readable_content = Readability::Document.new(
           source,
@@ -60,53 +91,30 @@ class Webpage < ApplicationRecord
           attributes: %w[href src alt],
           debug: true,
           min_image_height: 200,
-          min_image_width: 200,
+          min_image_width: 200
         ).content
 
-        # Fix relative links in extracted content:
-        content_with_fixed_links = Nokogiri::HTML(readable_content)
-
-        # find things using 'src' and 'href' parameters
-        tags = {
-          'img' => 'src',
-          'a' => 'href'
-        }
-
-        # Search through the DOM for <img> and <a> tags, detect relative links
-        # and replace them
-        content_with_fixed_links.search(tags.keys.join(',')).each do |node|
-          url_param = tags[node.name]
-
-          # Skip if src attr is empty
-          src = node[url_param]
-          next if src.blank?
-
-          uri = Addressable::URI.parse(src).normalize
-          next if uri.absolute?
-
-          # uri.host = source_url.host
-          # uri.scheme = source_url.scheme
-          # node[url_param] = uri.to_s
-          
-          ia_uri = Addressable::URI.parse("https://web.archive.org/web/").join(uri.path)
-          node[url_param] = ia_uri.to_s
-          
-          # If any of the URLs invalid, log it, leave them as is and continue
-          rescue StandardError => e
-            Rails.logger.warn "Error while parsing content URL during relative to absolute conversion: #{e}"
-            next
-        end
+        content_with_fixed_links = relative_to_absolute(base_uri, readable_content)
 
         # update table with contents
         update(content: content_with_fixed_links)
-        
-        rescue StandardError => e
-          Rails.logger.warn "Error while submitting to internet archive: #{e}"
-          # Write 'error' into content column, so we can tell between fetching and failed states
-          update(content: "error")
-          
-        end
+
+      rescue StandardError => e
+        Rails.logger.warn "Error while extracting readable content: #{e}"
+        # Write 'error' into content column, so we can tell between fetching and failed states
+        update(content: 'error')
       end
     end
-    
+  end
+
+  def submit_to_internet_archive
+    Thread.new do
+      Rails.application.executor.wrap do
+        source_uri = Addressable::URI.parse(url)
+        res = Net::HTTP.post_form(IA_API_URI, url: source_uri, capture_all: 'on')
+      rescue StandardError => e
+        Rails.logger.warn "Error while submitting to internet archive: #{e}"
+      end
+    end
+  end
 end
