@@ -245,6 +245,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  addressable
   bcrypt
   bootsnap
   capybara

@@ -2,7 +2,7 @@ require_relative 'boot'
 
 require 'rails/all'
 
-require 'uri'
+require 'addressable/uri'
 require 'net/http'
 require 'open-uri'
 

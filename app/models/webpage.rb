@@ -7,7 +7,6 @@ class Webpage < ApplicationRecord
 
   after_create_commit :fetch_title, if: :title_missing?
   after_create_commit :submit_to_internet_archive
-  # if: Proc.new { self.content.blank? }
 
   def reading_time
     words_per_minute = 230
@@ -44,6 +43,7 @@ class Webpage < ApplicationRecord
 
         # TODO: how to recover if response times out or errors?
         #       - put into retry queue that gets retried every 10m?
+        #       - simply warn user w red title?
 
         # Extract primary readable content and add it to db
         # source = URI.parse("https://web.archive.org/web/#{source_url}").open.read
@@ -69,24 +69,37 @@ class Webpage < ApplicationRecord
           'a' => 'href'
         }
 
-        # Search for the tags and insert the base url when needed
+        # Search through the DOM for <img> and <a> tags, detect relative links
+        # and replace them
         content_with_fixed_links.search(tags.keys.join(',')).each do |node|
           url_param = tags[node.name]
 
+          # Skip if src attr is empty
           src = node[url_param]
           next if src.blank?
 
-          uri = URI.parse(src)
-          next if uri.host
+          uri = Addressable::URI.parse(src).normalize
+          next if uri.absolute?
 
-          uri.scheme = source_url.scheme
           uri.host = source_url.host
+          uri.scheme = source_url.scheme
           node[url_param] = uri.to_s
+          # If any of the URLs invalid, log it, leave them as is and continue
+          rescue StandardError => e
+            Rails.logger.warn "Error while parsing content URL during relative to absolute conversion: #{e}"
+            next
         end
 
         # update table with contents
         update(content: content_with_fixed_links)
+        
+        rescue StandardError => e
+          Rails.logger.warn "Error while submitting to internet archive: #{e}"
+          # Write 'error' into content column, so we can tell between fetching and failed states
+          update(content: "error")
+          
+        end
       end
     end
-  end
+    
 end

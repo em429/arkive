@@ -1,22 +1,20 @@
-<div class="max-w-[700px]  mx-auto">
-  
  <!-- Logo --> 
- <%= image_tag "arkive_mascot.webp", class: "w-40 mx-auto" %>
+ <%= image_tag "arkive_mascot.webp", class: "w-40 mx-auto mb-4 sm:mb-0" %>
   
   <!-- Start of double column on top of page -->
-  <div class="grid grid-cols-2">
+  <div class="flex md:flex-row flex-col md:justify-between">
     
-    <div class="col-span-1">
-      <h1 class="mb-3 font-bold text-md sm:text-3xl">Private Web Archive</h1>
+    <div>
+      <h1 class="font-bold text-md sm:text-3xl">Private Web Archive</h1>
     </div>
-    <div class="col-span-1 justify-self-end">
-      <div class="mb-4 space-x-3">
-        <%= link_to "Add", new_webpage_path(@webpage), class: "btn-primary", data: { turbo_frame: dom_id(Webpage.new) } %>
+    <div>
+      <div class="space-x-3  text-sm sm:text-md text-slate-800 underline font-medium">
+        <%= link_to "+ Add", new_webpage_path(@webpage), data: { turbo_frame: dom_id(Webpage.new) } %>
         
         <% if current_page?(root_url) %>
-          <%= link_to "Show Read", show_read_webpages_path(@webpage), class: "btn-primary" %>
+          <%= link_to "Show Read", show_read_webpages_path(@webpage) %>
         <% else current_page?(show_read_webpages_url) %>
-          <%= link_to "Hide Read", root_path, class: "btn-primary" %>
+          <%= link_to "Hide Read", root_path %>
         <% end %>
       </div>
       
@@ -43,5 +41,3 @@
         
       </div>
   </div>
-  
-</div>

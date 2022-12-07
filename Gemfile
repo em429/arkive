@@ -54,6 +54,9 @@ group :development, :test do
 end
 
 group :development do
+  # Linter
+  gem 'rubocop-rails', require: false
+  
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem 'web-console'
 
@@ -79,6 +82,6 @@ gem 'validate_url'
 
 gem 'bcrypt'
 
-gem 'rubocop-rails', require: false
 
 gem 'friendly_id', '~> 5.4.0'
+gem 'addressable'

@@ -37,7 +37,21 @@
   <% end %>
 </div>
 
-<% if not @webpage.content == nil %>
+<!-- Display error message if content couldn't been fetched -->
+<% if @webpage.content == "error" %>
+  <div class="p-3  bg-red-200">
+    <h2 class="m-0 text-md sm:text-xl font-bold text-red-700">Error archiving page! Double check the URL.</h2>
+   </div>
+   
+<!-- If content is still nil, it's still being fetched -->
+<% elsif @webpage.content == nil %>
+
+  <div class="p-3  bg-yellow-100">
+    <h2 class="m-0 text-md sm:text-xl font-bold text-yellow-700">Still fetching content..</h2>
+   </div>
+
+<!-- Otherwise, display the fetched content normally: -->
+<% else %>
 
   <div class="p-3  bg-slate-100">
     <h2 class="m-0 text-md sm:text-xl font-bold text-slate-400">Captured Content</h2>
@@ -45,6 +59,8 @@
   <div class="prose prose-slate mb-10 sm:p-4 mx-auto">
          <%= @webpage.content.html_safe %>
   </div>
+
+
 <% end %>
  
  <style>
