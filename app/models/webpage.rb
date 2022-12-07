@@ -28,6 +28,10 @@ class Webpage < ApplicationRecord
     Thread.new do
       Rails.application.executor.wrap do
         self.title = Net::HTTP.get(URI(url)).scan(%r{<title>(.*?)</title>})[0][0]
+      rescue StandardError => e
+        Rails.logger.warn "Error while fetching title: #{e}"
+        # TODO: implement Kaya's equation to generate a title without request
+        # 
       end
     end
   end
@@ -39,25 +43,24 @@ class Webpage < ApplicationRecord
         # Save to Internet Archive
         ia_api_uri = URI('https://web.archive.org/save')
         res = Net::HTTP.post_form(ia_api_uri, url: source_url, capture_all: 'on')
-        raise 'ArchiveFailedException' if res.nil?
 
         # TODO: how to recover if response times out or errors?
         #       - put into retry queue that gets retried every 10m?
         #       - simply warn user w red title?
 
         # Extract primary readable content and add it to db
-        # source = URI.parse("https://web.archive.org/web/#{source_url}").open.read
-        source = source_url.open.read
+        source = URI.parse("https://web.archive.org/web/#{source_url}").open.read
+        #source = source_url.open.read
+        Rails.logger.debug source
 
         readable_content = Readability::Document.new(
           source,
-          tags: %w[div header h1 h2 h3 h4 h5 h6 h7 p a pre img strong blockquote i b ul li],
-          remove_empty_nodes: true,
-          attributes: %w[href],
+          tags: %w[div h1 h2 h3 h4 h5 h6 h7 p a pre img figure strong blockquote i b ul li],
+          remove_empty_nodes: false,
+          attributes: %w[href src alt],
           debug: true,
           min_image_height: 200,
           min_image_width: 200,
-          ignore_image_format: %w[gif png]
         ).content
 
         # Fix relative links in extracted content:
@@ -81,9 +84,13 @@ class Webpage < ApplicationRecord
           uri = Addressable::URI.parse(src).normalize
           next if uri.absolute?
 
-          uri.host = source_url.host
-          uri.scheme = source_url.scheme
-          node[url_param] = uri.to_s
+          # uri.host = source_url.host
+          # uri.scheme = source_url.scheme
+          # node[url_param] = uri.to_s
+          
+          ia_uri = Addressable::URI.parse("https://web.archive.org/web/").join(uri.path)
+          node[url_param] = ia_uri.to_s
+          
           # If any of the URLs invalid, log it, leave them as is and continue
           rescue StandardError => e
             Rails.logger.warn "Error while parsing content URL during relative to absolute conversion: #{e}"

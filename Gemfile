@@ -85,3 +85,4 @@ gem 'bcrypt'
 
 gem 'friendly_id', '~> 5.4.0'
 gem 'addressable'
+gem 'fastimage'
