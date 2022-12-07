@@ -1,6 +1,6 @@
 class Webpage < ApplicationRecord
   belongs_to :user
-  validates :url, presence: true, length: { minimum: 3 }, url: true,
+  validates :url, presence: true, url: true,
                   uniqueness: { scope: :user_id, message: 'Webpage already in archive' }
   validates :user_id, presence: true
   scope :ordered, -> { order(id: :desc) }
