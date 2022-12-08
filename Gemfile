@@ -85,3 +85,5 @@ gem 'bcrypt'
 gem 'addressable'
 gem 'fastimage'
 gem 'friendly_id', '~> 5.4.0'
+
+gem 'delayed_job_active_record'
