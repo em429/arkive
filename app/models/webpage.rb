@@ -5,9 +5,13 @@ class Webpage < ApplicationRecord
   validates :user_id, presence: true
   scope :ordered, -> { order(id: :desc) }
 
-  after_create_commit :fetch_title, if: :title_missing?
-  after_create_commit :submit_to_internet_archive
-  after_create_commit -> { fetch_readable_content(from_archive: true) }
+  before_create -> { self.internet_archive_url = "#{IA_GET_API}/#{url}" }
+  before_create :fetch_title, if: :title_missing?
+  before_create :submit_to_internet_archive
+  before_create -> { fetch_readable_content(from_archive: false) }
+  
+
+  # after_rollback, :retry_content_fetch, on: :create
 
   def reading_time
     words_per_minute = 230
@@ -21,7 +25,9 @@ class Webpage < ApplicationRecord
 
   private
 
-  IA_API_URI = URI('https://web.archive.org/save')
+  IA_SAVE_API = 'https://web.archive.org/save'
+  IA_GET_API = 'https://web.archive.org/web'
+  IA_AVAILABILITY_API = 'https://archive.org/wayback/available?url='
 
   def title_missing?
     title.blank?
@@ -78,12 +84,13 @@ class Webpage < ApplicationRecord
         source_uri = Addressable::URI.parse(url)
         if from_archive
           source = URI.open(Addressable::URI.parse("https://web.archive.org/web/#{source_uri}")).read
-          base_uri = 'https://web.archive.org/web/'
+          base_uri = IA_GET_API
         else
           source = URI.open(source_uri).read
           base_uri = source_uri.site
         end
 
+        # source = source.encode('utf-8', :invalid => :replace, :undef => :replace, :replace => '_')
         readable_content = Readability::Document.new(
           source,
           tags: %w[div h1 h2 h3 h4 h5 h6 h7 p a pre img figure strong blockquote i b ul li],
@@ -91,18 +98,20 @@ class Webpage < ApplicationRecord
           attributes: %w[href src alt],
           debug: true,
           min_image_height: 200,
-          min_image_width: 200
+          min_image_width: 200,
+          # encoding: 'utf-8',
+          # do_not_guess_encoding: true
         ).content
 
         content_with_fixed_links = relative_to_absolute(base_uri, readable_content)
 
         # update table with contents
+        # self.content = content_with_fixed_links
         update(content: content_with_fixed_links)
 
       rescue StandardError => e
         Rails.logger.warn "Error while extracting readable content: #{e}"
         # Write 'error' into content column, so we can tell between fetching and failed states
-        update(content: 'error')
       end
     end
   end
@@ -111,7 +120,18 @@ class Webpage < ApplicationRecord
     Thread.new do
       Rails.application.executor.wrap do
         source_uri = Addressable::URI.parse(url)
-        res = Net::HTTP.post_form(IA_API_URI, url: source_uri, capture_all: 'on')
+        submit_res = Net::HTTP.post_form(URI(IA_SAVE_API), url: source_uri, capture_all: 'on')
+
+       available_snapshots = JSON.parse(Net::HTTP.get(URI("#{IA_AVAILABILITY_API}#{url}")))
+       # TODO: - if fetch_title succeeds (site status check) then keep retrying with delays
+       #       - if fetch_title failed, and site is not coming back as available from IA, don't retry
+
+       if available_snapshots["archived_snapshots"].empty?
+         Rails.logger.debug "NO Snapshots available! --> #{available_snapshots.inspect}"
+       else
+         Rails.logger.debug "Snapshots available! --> #{available_snapshots.inspect}"
+       end
+        
       rescue StandardError => e
         Rails.logger.warn "Error while submitting to internet archive: #{e}"
       end

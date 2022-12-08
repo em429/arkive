@@ -3,10 +3,8 @@
  
   <!-- Title column -->
   <div class="sm:col-span-4 text-sm <%= webpage.read_status? ? 'text-lime-500' : '' %> font-light px-2 py-2 whitespace-nowrap">
-    <% if webpage.title.blank? and webpage.content != "error" %>
+    <% if webpage.title.blank?  %>
       <a class="text-slate-400 italic" href="<%= webpage_path(webpage) %>" >Fetching title..</a>
-    <% elsif webpage.content == "error" %>
-      <a class="text-red-500 italic font-medium" href="<%= webpage_path(webpage) %>" >Failed to archive webpage! Please double check the URL and try again.</a>
     <% else %>
       <a class="" href="<%= webpage_path(webpage) %>" ><%= webpage.title %></a>
     <% end %>

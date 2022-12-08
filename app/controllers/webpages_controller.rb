@@ -66,8 +66,8 @@ class WebpagesController < ApplicationController
     case request.referer
     when "#{request.base_url}/"
       redirect_to root_path
-    when "#{request.base_url}/show_read"
-      redirect_to show_read_path
+    when "#{request.base_url}/webpages/show_read"
+      redirect_to show_read_webpages_path
     else
       redirect_to @webpage
     end
