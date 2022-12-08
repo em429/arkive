@@ -41,3 +41,4 @@
 node_modules
 
 fly.toml
+.rubocop_todo.yml
