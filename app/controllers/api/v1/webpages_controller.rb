@@ -14,7 +14,7 @@ module Api
           webpage.delay.fetch_title if webpage.title_missing?
           webpage.delay.submit_to_internet_archive
           webpage.delay.fetch_readable_content(from_archive: false)
-          
+
           render json: { status: 'success', message: 'Webpage archived successfully!' }, status: :created
         else
           render json: webpage.errors, status: :unprocessable_entity

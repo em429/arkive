@@ -17,7 +17,6 @@ class Webpage < ApplicationRecord
     end
   end
 
-
   IA_SAVE_API = 'https://web.archive.org/save'
   IA_GET_API = 'https://web.archive.org/web'
   IA_AVAILABILITY_API = 'https://archive.org/wayback/available?url='
@@ -33,7 +32,7 @@ class Webpage < ApplicationRecord
     # TODO: implement Kaya's equation to generate a title without request
     #
   end
-  
+
   # Extract primary readable content and add it to db
   def fetch_readable_content(from_archive: false)
     source_uri = Addressable::URI.parse(url)
@@ -118,7 +117,4 @@ class Webpage < ApplicationRecord
     end
     return target_dom
   end
-
-  
-  
 end
