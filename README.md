@@ -1,4 +1,4 @@
-<img src="https://github.com/qirpi/arkive/blob/main/app/assets/images/arkive_mascot.webp" width="300px"></img>
+<img src="https://github.com/qirpi/arkive/blob/main/screenshot.png" width="800px"></img>
 
 # Arkive: A private web archive
 
