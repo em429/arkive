@@ -2,7 +2,7 @@
 
 # Arkive: A private web archive
 
-Arkive is a marriage of three ideas: __bookmarking__, __archiving__ (mirroring) and __read-later__ services. (It also has annotations!)
+Arkive is a marriage of three ideas: __bookmarking__, __archiving to IA or similiar sites__ (mirroring) and __read-later__ services. (It also has annotations!)
 
 All three have the same core purpose: saving stuff for later, yet go about it in very different ways, each with it's own strenghts and weaknesses. 
 
