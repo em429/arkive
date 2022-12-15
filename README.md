@@ -1,8 +1,8 @@
-<img src="https://github.com/qirpi/arkive/blob/main/app/assets/images/arkive_mascot.webp" width="300px"></img>
+<img src="https://github.com/qirpi/arkive/blob/main/screenshot.png" width="800px"></img>
 
 # Arkive: A private web archive
 
-Arkive is a marriage of three ideas: __bookmarking__, __archiving__ (mirroring) and __read-later__ services.
+Arkive is a marriage of three ideas: __bookmarking__, __archiving to IA or similiar sites__ (mirroring) and __read-later__ services. (It also has annotations!)
 
 All three have the same core purpose: saving stuff for later, yet go about it in very different ways, each with it's own strenghts and weaknesses. 
 
@@ -29,9 +29,11 @@ __Arkive is designed to solve all these problems at once — an archival / bookm
     - If no title is provided, it's fetched automatically
   - __Easy to read anywhere__ thanks to the responsive webui
   - Helps keeping track:
-    - Articles can be marked as read
+    - Has built in annotations on the extracted content
+    - Articles can be marked as read and favorited
     - Displays reading time estimates
     - TODO articles can be put into collections
+    - TODO shows you where you left off
 
 ### Installation / Dev environment setup (without Nix)
 Make sure you have ruby 2.7.x then run
@@ -51,22 +53,7 @@ Make sure you have ruby 2.7.x then run
 ### Installation / Dev env setup with Nix
 - `./devenv.sh`
 
-### Things to cover
+#### Versions
 
 * Ruby: 2.7.6, Rails: 7.0.4
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
