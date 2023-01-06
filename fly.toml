@@ -1,4 +1,4 @@
-# fly.toml file generated for arkive on 2023-01-06T17:22:26+01:00
+# fly.toml file generated for arkive on 2023-01-06T18:13:51+01:00
 
 app = "arkive"
 
@@ -6,7 +6,19 @@ kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
 
+[build]
+
+  [build.args]
+    BUNDLER_VERSION = "2.3.9"
+    NODE_VERSION = "14"
+    RUBY_VERSION = "3.1.1"
+
+[deploy]
+  release_command = "bundle exec rails db:migrate"
+
 [env]
+  PORT = "8080"
+  SERVER_COMMAND = "bundle exec puma -C config/puma.rb"
 
 [experimental]
   allowed_public_ports = []
@@ -38,6 +50,10 @@ processes = []
     interval = "15s"
     restart_limit = 0
     timeout = "2s"
+
+[[statics]]
+  guest_path = "/app/public"
+  url_prefix = "/"
 
 [mounts]
   source="arkive_vol"
