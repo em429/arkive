@@ -1,4 +1,14 @@
 module SessionsHelper
+
+  def render_account_dropdown
+    if logged_in?
+      render 'users/account_dropdown'
+      
+    else
+      link_to "Log in", login_path, class:"text-slate-800 hover:text-violet-500"
+    end
+  end
+  
   # Logs in the given user.
   def log_in(user)
     session[:user_id] = user.id
