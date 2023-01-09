@@ -30,7 +30,7 @@ class WebpagesController < ApplicationController
       if @webpage.save
         @webpage.delay.fetch_title if @webpage.title_missing?
         @webpage.delay.submit_to_internet_archive
-        @webpage.delay.fetch_readable_content(from_archive: false)
+        @webpage.delay.fetch_readable_content(from_archive=false)
 
         respond_to do |format|
           format.html { redirect_to webpages_path, notice: 'Successfully added to archive.' }

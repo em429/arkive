@@ -34,7 +34,7 @@ class Webpage < ApplicationRecord
   end
 
   # Extract primary readable content and add it to db
-  def fetch_readable_content(from_archive: false)
+  def fetch_readable_content(from_archive=false)
     source_uri = Addressable::URI.parse(url)
     if from_archive
       source = URI.open(Addressable::URI.parse("https://web.archive.org/web/#{source_uri}")).read
