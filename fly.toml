@@ -1,20 +1,17 @@
-# fly.toml file generated for arkive on 2023-01-06T18:13:51+01:00
+# fly.toml file generated for arkive on 2023-01-22T16:18:40+01:00
 
 app = "arkive"
-
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
 
 [build]
-
   [build.args]
-    BUNDLER_VERSION = "2.3.9"
-    NODE_VERSION = "14"
-    RUBY_VERSION = "3.1.1"
+    BUILD_COMMAND = "bin/rails fly:build"
+    SERVER_COMMAND = "bin/rails fly:server"
 
 [deploy]
-  release_command = "bundle exec rails db:migrate"
+  release_command = "bin/rails fly:release"
 
 [env]
   PORT = "8080"
@@ -24,13 +21,16 @@ processes = []
   allowed_public_ports = []
   auto_rollback = true
 
+[mounts]
+  destination = "/mnt/arkive_vol"
+  source = "arkive_vol"
+
 [[services]]
   http_checks = []
   internal_port = 8080
   processes = ["app"]
   protocol = "tcp"
   script_checks = []
-
   [services.concurrency]
     hard_limit = 25
     soft_limit = 20
@@ -54,7 +54,3 @@ processes = []
 [[statics]]
   guest_path = "/app/public"
   url_prefix = "/"
-
-[mounts]
-  source="arkive_vol"
-  destination="/mnt/arkive_vol"
