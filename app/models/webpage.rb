@@ -26,7 +26,8 @@ class Webpage < ApplicationRecord
   end
 
   def fetch_title
-    update(title: Net::HTTP.get(URI(url)).scan(%r{<title>(.*?)</title>})[0][0])
+    title = Net::HTTP.get(URI(url)).scan(%r{<title>(.*?)</title>})[0][0].force_encoding('UTF-8')
+    update(title: title)
   rescue StandardError => e
     Rails.logger.warn "Error while fetching title: #{e}"
     # TODO: implement Kaya's equation to generate a title without request
