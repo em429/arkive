@@ -28,9 +28,9 @@ class WebpagesController < ApplicationController
     # Save to database
     begin
       if @webpage.save
-        FetchTitleJob.perform_now(@webpage) if @webpage.title_missing?
-        SubmitToInternetArchiveJob.perform_now(@webpage)
-        FetchReadableContentJob.perform_now(@webpage, from_archive=false)
+        FetchTitleJob.perform_later(@webpage) if @webpage.title_missing?
+        SubmitToInternetArchiveJob.perform_later(@webpage)
+        FetchReadableContentJob.perform_later(@webpage, from_archive=false)
 
         respond_to do |format|
           format.html { redirect_to webpages_path, notice: 'Successfully added to archive.' }
