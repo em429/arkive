@@ -11,9 +11,9 @@ module Api
         webpage = current_user.webpages.build(webpage_params)
 
         if webpage.save
-          webpage.delay.fetch_title if webpage.title_missing?
-          webpage.delay.submit_to_internet_archive
-          webpage.delay.fetch_readable_content(from_archive=false)
+          FetchTitleJob.perform_now(webpage) if webpage.title_missing?
+          SubmitToInternetArchiveJob.perform_now(webpage)
+          FetchReadableContentJob.perform_now(webpage, from_archive=false)
 
           render json: { status: 'success', message: 'Webpage archived successfully!' }, status: :created
         else
