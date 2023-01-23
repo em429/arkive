@@ -1,5 +1,5 @@
 module SessionsHelper
-
+  
   def render_account_dropdown
     if logged_in?
       render 'users/account_dropdown'
@@ -13,7 +13,6 @@ module SessionsHelper
   def log_in(user)
     session[:user_id] = user.id
     # Guard against session replay attacks.
-    # See https://bit.ly/33UvK0w for more.
     session[:session_token] = user.session_token
   end
 
@@ -23,7 +22,7 @@ module SessionsHelper
     cookies.permanent.encrypted[:user_id] = user.id
     cookies.permanent[:remember_token] = user.remember_token
   end
-
+  
   # Returns the user corresponding to the remember token cookie.
   def current_user
     if (user_id = session[:user_id])
@@ -36,6 +35,9 @@ module SessionsHelper
         return user
       end
     end
+    # If no session cookie:
+    Rails.logger.debug "No cookie!"
+    check_basic_auth
   end
 
   # Returns true if the given user is the current user.
