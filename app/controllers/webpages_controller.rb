@@ -31,7 +31,6 @@ class WebpagesController < ApplicationController
         FetchTitleJob.perform_later(@webpage) if @webpage.title_missing?
         SubmitToInternetArchiveJob.perform_later(@webpage)
         FetchReadableContentJob.perform_later(@webpage, from_archive=false)
-
         redirect_to root_path, notice: 'Successfully added to archive.'
       else
         render :new, status: :unprocessable_entity
