@@ -35,9 +35,6 @@ module SessionsHelper
         return user
       end
     end
-    # If no session cookie:
-    Rails.logger.debug "No cookie!"
-    check_basic_auth
   end
 
   # Returns true if the given user is the current user.
