@@ -1,9 +1,9 @@
 class WebpagesController < ApplicationController
   # Check every time if user is trying to view their own webpage
   # The index/show_all/create/new action has no id, so there we skip it.
-  #    The index/show_all is already rendered from onlu the current user's stuff.
-  #    And create will only allow creating for current user, of course
-  before_action :correct_user, except: %i[index show_read create new]
+  #    The index/show_all is already rendered from only the current user's stuff.
+  #    And create will only allow creating for current user, of course.
+  before_action :check_user_owns_page, except: %i[index show_read create new]
 
   def index
     @webpages = current_user.webpages.where(read_status: false).ordered
@@ -15,7 +15,7 @@ class WebpagesController < ApplicationController
   end
 
   def show
-    @webpage = Webpage.find(params[:id])
+    @webpage = Webpage.find_by(url_md5_hash: params[:url_md5_hash])
   end
 
   def new
@@ -28,10 +28,10 @@ class WebpagesController < ApplicationController
     # Save to database
     begin
       if @webpage.save
-        FetchTitleJob.perform_later(@webpage) if @webpage.title_missing?
+        FetchPageDataJob.perform_later(@webpage, from_archive=false)
         SubmitToInternetArchiveJob.perform_later(@webpage)
-        FetchReadableContentJob.perform_later(@webpage, from_archive=false)
-        redirect_to root_path, notice: 'Successfully added to archive.'
+        
+        redirect_to webpage_path(@webpage), notice: 'Successfully added to archive.'
       else
         render :new, status: :unprocessable_entity
       end
@@ -41,11 +41,11 @@ class WebpagesController < ApplicationController
   end
 
   def edit
-    @webpage = Webpage.find(params[:id])
+    @webpage = Webpage.find_by(url_md5_hash: params[:url_md5_hash])
   end
 
   def update
-    @webpage = Webpage.find(params[:id])
+    @webpage = Webpage.find_by(url_md5_hash: params[:url_md5_hash])
 
     if @webpage.update(webpage_params)
       redirect_to @webpage, notice: 'Webpage was successfully updated.'
@@ -54,8 +54,9 @@ class WebpagesController < ApplicationController
     end
   end
 
+  # FIXME lol
   def toggle_read_status
-    @webpage = Webpage.find(params[:id])
+    @webpage = Webpage.find_by(url_md5_hash: params[:url_md5_hash])
 
     if @webpage.read_status
       @webpage.update(read_status: false)
@@ -63,6 +64,7 @@ class WebpagesController < ApplicationController
       @webpage.update(read_status: true)
     end
 
+    # FIXME Uhhhhhhhhh.. :')
     case request.referer
     when "#{request.base_url}/"
       redirect_to root_path
@@ -86,8 +88,8 @@ class WebpagesController < ApplicationController
     params.require(:webpage).permit(:title, :url, :internet_archive_url)
   end
 
-  def correct_user
-    @webpage = current_user.webpages.find_by(id: params[:id])
+  def check_user_owns_page
+    @webpage = current_user.webpages.find_by(url_md5_hash: params[:url_md5_hash])
     redirect_to(root_url, status: :see_other) if @webpage.nil?
   end
 end

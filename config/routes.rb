@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   root 'webpages#index'
 
   resources :users
-  resources :webpages do
+  resources :webpages, param: :url_md5_hash do
     get 'toggle_read_status', on: :member
     get 'show_read', on: :collection
   end

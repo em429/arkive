@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_09_001921) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_25_231532) do
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
     t.integer "attempts", default: 0, null: false
@@ -59,6 +59,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_09_001921) do
     t.boolean "read_status", default: false
     t.text "content"
     t.integer "user_id", null: false
+    t.string "url_md5_hash"
     t.index ["url", "user_id"], name: "index_webpages_on_url_and_user_id", unique: true
   end
 
