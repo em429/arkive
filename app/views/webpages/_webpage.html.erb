@@ -1,68 +1,46 @@
+<!-- FIXME refactor this to use flex, not grid -->
 <div 
     class="grid grid-cols-1 sm:grid-cols-5 <%= webpage.read_status? ? 'bg-lime-50 hover:bg-lime-100' : '' %> cursor-pointer transition duration-300 ease-in-out hover:bg-violet-100"
- 
+>
+
   <!-- Title column -->
   <div class="sm:col-span-4 text-sm <%= webpage.read_status? ? 'text-lime-500' : '' %> font-light px-2 py-2 whitespace-nowrap">
-    <% if webpage.title.blank?  %>
-      <a class="text-slate-400 italic" href="<%= webpage_path(webpage) %>" >Fetching title..</a>
-    <% else %>
       <a class="" href="<%= webpage_path(webpage) %>" ><%= webpage.title %></a>
-    <% end %>
   </div>
   <!-- END Title column -->
    
   <!-- Mirrors column -->
   <div class="sm:justify-self-end sm:col-span-1 space-x-2 text-sm font-light px-2 py-2 whitespace-nowrap">
   
-    <span class="<%= webpage.read_status? ? 'text-slate-300' : 'text-slate-500' %> inline-block text-xs italic">~<%= pluralize(webpage.reading_time, 'min') %></span>
-  
-    <!-- Original URL Icon -->
-    <span data-tooltip-target="original_url_tooltip" class="inline-block <%= webpage.read_status? ? 'text-blue-300 hover:text-blue-500' : 'text-blue-500 hover:text-blue-300' %> ">
-      <a href="<%= webpage.url %>">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
-        </svg>
-      </a>
+    <span class="<%= webpage.read_status? ? 'text-slate-300' : 'text-slate-500' %> inline-block text-xs italic">
+      ~<%= pluralize(webpage.reading_time, 'min') %>
     </span>
-    <span id="original_url_tooltip" role="tooltip" class="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip dark:bg-gray-700">
-       Original
-       <span class="tooltip-arrow" data-popper-arrow></span>
+  
+    <!-- Original URL Icon FIXME: hover active check is spaghetti code here and everywhere -->
+    <span class="inline-block <%= webpage.read_status? ? 'text-blue-300 hover:text-blue-500' : 'text-blue-500 hover:text-blue-300' %> ">
+      <a href="<%= webpage.url %>">
+        <%= render 'svgs/link' %>
+      </a>
     </span>
     <!-- END Original URL Icon -->
     
     <!-- Internet Archive URL Icon -->
-    <span data-tooltip-target="ia_url_tooltip" class="inline-block <%= webpage.read_status? ? 'text-blue-300 hover:text-blue-500' : 'text-blue-500 hover:text-blue-300' %> ">
+    <span class="inline-block <%= webpage.read_status? ? 'text-blue-300 hover:text-blue-500' : 'text-blue-500 hover:text-blue-300' %> ">
       <a href="<%= webpage.internet_archive_url %>">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
-        </svg>
+        <%= render 'svgs/archive-box' %>
       </a>
-    </span>
-    <span id="ia_url_tooltip" role="tooltip" class="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip dark:bg-gray-700">
-       Internet Archive
-       <span class="tooltip-arrow" data-popper-arrow></span>
     </span>
     <!-- END Internet Archive URL Icon -->
   
+  <!-- FIXME, move this conditional logic to a helper -->
   <% if webpage.read_status? %>
-    <span class="inline-block">
-      <%= link_to toggle_read_status_webpage_path(webpage), class: "hover:text-lime-500 text-slate-300" do %>
-        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
-        </svg>
+      <%= link_to toggle_read_status_webpage_path(webpage), class: "inline-block hover:text-lime-500 text-slate-300" do %>
+        <%= render 'svgs/check-badge' %> 
       <% end %>
-    </span>
-  
   <% else %>
-  
-    <span class="inline-block">
-      <%= link_to toggle_read_status_webpage_path(webpage), class: "hover:text-lime-300 text-lime-500" do %>
-        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
-        </svg>
+      <%= link_to toggle_read_status_webpage_path(webpage), class: "inline-block hover:text-lime-300 text-lime-500" do %>
+        <%= render 'svgs/check-badge' %> 
       <% end %>
-    </span>
-    
   <% end %>
    
   </div>
