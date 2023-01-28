@@ -27,13 +27,11 @@
       <div class="py-2 inline-block min-w-full">
 
         <!-- Start of Table -->
-        
         <div class="overflow-hidden sm:shadow-lg border border-violet-50 rounded-md">        
           
           <div id="webpages">
-              <%= turbo_frame_tag Webpage.new %>
-              
-              <%= render @webpages %>
+            <%= turbo_frame_tag Webpage.new %>
+            <%= render @webpages %>
           </div>
           
         </div>

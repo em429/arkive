@@ -2,4 +2,8 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 
+// For testing no-js:
 // Turbo.session.drive = false;
+
+// to check the progress bar design, set the delay to 1ms
+//Turbo.setProgressBarDelay(1)
