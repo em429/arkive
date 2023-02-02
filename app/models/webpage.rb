@@ -1,9 +1,12 @@
 class Webpage < ApplicationRecord
   belongs_to :user
   validates :url, presence: true, url: true,
-                  uniqueness: { scope: :user_id, message: 'Webpage already in archive' }
+                  uniqueness: { scope: :user_id, message: 'already in archive' }
   validates :user_id, presence: true
+  
   scope :ordered, -> { order(id: :desc) }
+  scope :unread, -> { ordered.where(read_status: false) }
+  scope :read, -> { ordered.where(read_status: true) }
 
   IA_GET_API = 'https://web.archive.org/web'
 
@@ -25,7 +28,7 @@ class Webpage < ApplicationRecord
   end
 
   # Overwrite parent ActiveRecord to_param method
-  #   (it returns the :id by default)
+  #   (it returns the id column by default)
   def to_param
     url_md5_hash
   end

@@ -13,8 +13,8 @@
       <%= link_to "+ Add", new_webpage_path(@webpage), data: { turbo_frame: dom_id(Webpage.new) } %>
       
       <% if current_page?(root_url) %>
-        <%= link_to "Show Read", show_read_webpages_path(@webpage) %>
-      <% else current_page?(show_read_webpages_url) %>
+        <%= link_to "Show Read", filtered_webpages_path(:read) %>
+      <% else current_page?(filtered_webpages_path(:read)) %>
         <%= link_to "Hide Read", root_path %>
       <% end %>
     </div>
