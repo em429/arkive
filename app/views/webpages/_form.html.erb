@@ -11,18 +11,18 @@
   <%= form_with model: Webpage, class: "flex space-x-2" do |form| %>
 
       <!-- Left side: title and url -->
-      <%= form.text_field :title, class: "p-2 block shadow rounded-md border border-violet-200 outline-none w-full", placeholder: "Title" %>
-      <%= form.text_field :url, class: "p-2 block shadow rounded-md border border-violet-200 outline-none  w-full", placeholder: "URL" %>
+      <%= form.text_field :title, class: "p-2 block shadow rounded-md border border-slate-200 outline-none w-full", placeholder: "Title" %>
+      <%= form.text_field :url, class: "p-2 block shadow rounded-md border border-slate-200 outline-none  w-full", placeholder: "URL" %>
       <!-- End of left side -->
 
       <!-- Rigth side: Submit and Cancel buttons -->
       <div class="flex justify-center space-x-2">
         
-        <%= button_tag type: "submit", class: "p-2 shadow bg-lime-100 rounded" do %>
+        <%= button_tag type: "submit", class: "p-2 shadow bg-slate-100 rounded" do %>
           <%= render "svgs/plus" %>
         <% end %>
         
-        <%= button_tag type: "button", class: "p-2 shadow bg-slate-100 rounded" do %>
+        <%= button_tag type: "button", class: "p-2 shadow bg-slate-200 rounded" do %>
           <%= link_to webpages_path do %>
             <%= render 'svgs/x-mark' %>
           <% end %>

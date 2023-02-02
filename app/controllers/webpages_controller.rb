@@ -31,7 +31,12 @@ class WebpagesController < ApplicationController
         FetchPageDataJob.perform_later(@webpage, from_archive=false)
         SubmitToInternetArchiveJob.perform_later(@webpage)
         
-        redirect_to webpage_path(@webpage), notice: 'Successfully added to archive.'
+        respond_to do |format|
+          notice = 'Successfully added to archive'
+          format.turbo_stream { flash[:now] = notice }
+          format.html { redirect_to webpage_path(@webpage), notice: notice }
+        end
+        
       else
         render :new, status: :unprocessable_entity
       end

@@ -1,41 +1,43 @@
- <!-- Logo --> 
- <%= image_tag "arkive_mascot.webp", class: "w-40 mx-auto mb-4 sm:mb-0" %>
+<!-- Logo -->
+<%= image_tag "arkive_mascot.webp", class: "w-40 mx-auto mb-10" %>
+
+<!-- Start of double column on top of page -->
+<div class="flex md:flex-row flex-col md:justify-between">
   
-  <!-- Start of double column on top of page -->
-  <div class="flex md:flex-row flex-col md:justify-between">
-    
-    <div>
-      <h1 class="font-bold text-md sm:text-3xl">Private Web Archive</h1>
+  <div>
+    <h1 class="mb-5 font-bold text-md sm:text-3xl">Private Web Archive</h1>
+  </div>
+  
+  <div>
+    <div class="space-x-3  text-sm sm:text-md text-slate-800 underline font-medium">
+      <%= link_to "+ Add", new_webpage_path(@webpage), data: { turbo_frame: dom_id(Webpage.new) } %>
+      
+      <% if current_page?(root_url) %>
+        <%= link_to "Show Read", show_read_webpages_path(@webpage) %>
+      <% else current_page?(show_read_webpages_url) %>
+        <%= link_to "Hide Read", root_path %>
+      <% end %>
     </div>
-    <div>
-      <div class="space-x-3  text-sm sm:text-md text-slate-800 underline font-medium">
-        <%= link_to "+ Add", new_webpage_path(@webpage), data: { turbo_frame: dom_id(Webpage.new) } %>
-        
-        <% if current_page?(root_url) %>
-          <%= link_to "Show Read", show_read_webpages_path(@webpage) %>
-        <% else current_page?(show_read_webpages_url) %>
-          <%= link_to "Hide Read", root_path %>
-        <% end %>
+    
+  </div>
+</div>
+<!-- end of double column -->
+
+<!-- Start of single column section -->
+<div class="mb-3">
+  <div class="py-2 inline-block min-w-full">
+
+    <!-- Start of Table -->
+    <div class="overflow-hidden sm:shadow-lg border border-slate-50 rounded-md">        
+      
+      <div id="webpages">
+        <%= turbo_frame_tag Webpage.new %>
+        <%= render @webpages %>
       </div>
       
     </div>
+    <!-- End of Table -->
+    
   </div>
-  <!-- end of double column -->
   
-  <!-- Start of single column section -->
-    <div class="mb-3 grid grid-cols-1">
-      <div class="py-2 inline-block min-w-full">
-
-        <!-- Start of Table -->
-        <div class="overflow-hidden sm:shadow-lg border border-violet-50 rounded-md">        
-          
-          <div id="webpages">
-            <%= turbo_frame_tag Webpage.new %>
-            <%= render @webpages %>
-          </div>
-          
-        </div>
-        <!-- End of Table -->
-        
-      </div>
-  </div>
+</div>

@@ -5,10 +5,10 @@
 
 @layer components {
   .read {
-    @apply bg-gray-100;
+    @apply bg-slate-100;
   }
   .btn-primary {
-    @apply inline-block px-3 py-2.5 bg-violet-100 font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-violet-200 hover:shadow-lg hover:shadow-violet-500/30 focus:bg-violet-300 focus:shadow-lg focus:shadow-violet-500/30 focus:outline-none focus:ring-0 active:bg-violet-300 active:shadow-lg active:shadow-violet-500/30 shadow-violet-500/30 transition duration-150 ease-in-out;
+    @apply inline-block px-3 py-2.5 bg-slate-100 font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-slate-200 hover:shadow-lg hover:shadow-slate-500/30 focus:bg-slate-300 focus:shadow-lg focus:shadow-slate-500/30 focus:outline-none focus:ring-0 active:bg-slate-300 active:shadow-lg active:shadow-slate-500/30 shadow-slate-500/30 transition duration-150 ease-in-out;
   }
 
 

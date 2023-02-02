@@ -14,5 +14,5 @@
  *= require_self
  */
 
-.read { @apply bg-gray-200; }
+.read { @apply bg-slate-200; }
 .readtext { color: #9CA3AF; }

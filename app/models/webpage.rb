@@ -9,7 +9,6 @@ class Webpage < ApplicationRecord
 
   before_create -> { self.url_md5_hash = Digest::MD5.hexdigest(url) }
   before_create -> { self.internet_archive_url = "#{IA_GET_API}/#{url}" }
-  
 
   def reading_time
     words_per_minute = 230

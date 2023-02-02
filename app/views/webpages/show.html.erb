@@ -1,39 +1,40 @@
 <div class="mx-auto mb-4">
   <%= turbo_frame_tag @webpage do %>
-    <div class="mb-4">
-      <h1 class="text-xl sm:text-3xl font-bold mb-2 sm:mb-6"><%= @webpage.title %></h1>
 
-      <span class="text-md font-bold">🔗 Mirrors:</span>
-      <ul class="list-disc list-inside pl-4">
-        <li>
-          <a class="underline text-blue-500" href="<%= @webpage.url %>">Original</a><br>
-        </li>
-        <li>
-          <a class="underline text-blue-500" href="<%= @webpage.internet_archive_url %>">Internet Archive</a><br>
-        </li>
-      </ul>
+    <div class="mb-8">
+      <h1 class="mb-8 text-xl sm:text-3xl font-bold "><%= @webpage.title %></h1>
 
-      <span class="text-md font-bold">Status:</span>
-      <% if @webpage.read_status %> Read <% else %> Unread <% end %>
-      </br>
-
-      <span class="text-md font-bold">Date added:</span> <%= @webpage.created_at %>
-      </br>
-      <span class="text-md font-bold">Reading Time:</span> about <%= pluralize(@webpage.reading_time, 'minute') %>
+      <!-- Info Box -->
+      <div class="mb-4 bg-slate-50 p-8 border-2 ">
+        <span class="mb-2 block text-lg ">🔗 Mirrors:</span>
+        <ul class="mb-8 list-disc list-inside pl-2">
+          <li>
+            <a class="underline text-slate-500" href="<%= @webpage.url %>">Original</a>
+          </li>
+          <li>
+            <a class="underline text-slate-500" href="<%= @webpage.internet_archive_url %>">Internet Archive</a>
+          </li>
+        </ul>
+        <div class="flex flex-wrap justify-between">
+          <span class="text-md ">Date added: <%= @webpage.created_at %></span>
+          <span class="text-md ">Reading Time: about <%= pluralize(@webpage.reading_time, 'minute') %></span>
+        </div>
+      </div> <!-- End Box-->
+      
+      <!-- Edit, Delete ..etc section -->
+      <nav class="mb-10 flex space-x-4">
+        <%= link_to "Edit", edit_webpage_path(@webpage), class: "btn-primary" %>
+        <% if @webpage.read_status? %>
+          <%= link_to "Mark Unread", toggle_read_status_webpage_path(@webpage), class: "btn-primary" %>
+        <% else %>
+          <%= link_to "Mark Read", toggle_read_status_webpage_path(@webpage), class: "btn-primary" %>
+        <% end %>
+        
+        <%= link_to "Delete", webpage_path(@webpage), class: "btn-primary ", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+      </nav>
       
     </div>
-    
-    <nav class="mb-10 flex space-x-4">
-      <%= link_to "Edit", edit_webpage_path(@webpage), class: "btn-primary" %>
-      <% if @webpage.read_status? %>
-        <%= link_to "Mark Unread", toggle_read_status_webpage_path(@webpage), class: "btn-primary" %>
-      <% else %>
-        <%= link_to "Mark Read", toggle_read_status_webpage_path(@webpage), class: "btn-primary" %>
-      <% end %>
-      
-      <%= link_to "Delete", webpage_path(@webpage), class: "btn-primary bg-red-200", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
-    </nav>
-    
+
   <% end %>
 </div>
 
@@ -41,7 +42,7 @@
 <% if @webpage.content %>
 
   <div class="p-3  bg-slate-100">
-    <h2 class="m-0 text-md sm:text-xl font-bold text-slate-400">Captured Content</h2>
+    <h2 class="m-0 text-md sm:text-xl  text-slate-400">Captured Content</h2>
    </div>
   <div class="prose prose-slate mb-10 sm:p-4 mx-auto">
          <%= @webpage.content.html_safe %>

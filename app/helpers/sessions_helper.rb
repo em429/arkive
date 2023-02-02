@@ -4,7 +4,7 @@ module SessionsHelper
     if logged_in?
       render 'users/account_dropdown'
     else
-      link_to "Log in", login_path, class:"text-slate-800 hover:text-violet-500"
+      link_to "Log in", login_path, class:"text-slate-800 hover:text-slate-500"
     end
   end
   
