@@ -1,11 +1,12 @@
 class WebpagesController < ApplicationController
   # Check every time if user is trying to view their own webpage
-  # The index/show_all/create/new action has no id, so there we skip it.
-  #    The index/show_all is already rendered from only the current user's stuff.
-  #    And create will only allow creating for current user, of course.
+  # The index/create/new action we skip the check (it would also fail bc. no id)
+  #    The index/show_all is already rendered from only the current user's stuff
+  #    And create will only allow creating for current user
   before_action :check_user_owns_page, except: %i[index create new]
 
-  before_action :set_webpage, only: %i[show edit update destroy toggle_read_status]
+  before_action :set_webpage,
+    only: %i[show edit update destroy mark_read mark_unread]
 
   ## Methods without need to find existing @webpage
   #################################################
@@ -67,24 +68,14 @@ class WebpagesController < ApplicationController
     redirect_to root_path, status: :see_other, notice: 'Webpage was successfully deleted.'
   end
 
-  # FIXME lol
-  def toggle_read_status
-
-    if @webpage.read_status
-      @webpage.update(read_status: false)
-    else
-      @webpage.update(read_status: true)
-    end
-
-    # FIXME Uhhhhhhhhh.. :')
-    case request.referer
-    when "#{request.base_url}/"
-      redirect_to root_path
-    when "#{request.base_url}/webpages/show_read"
-      redirect_to show_read_webpages_path
-    else
-      redirect_to @webpage
-    end
+  def mark_read
+    @webpage.update!(read_status: true)
+    redirect_to request.referrer
+  end
+  
+  def mark_unread
+    @webpage.update!(read_status: false)
+    redirect_to request.referrer
   end
 
   ## Private methods

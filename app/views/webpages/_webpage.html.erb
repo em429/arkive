@@ -32,17 +32,8 @@
     </span>
     <!-- END Internet Archive URL Icon -->
   
-  <!-- FIXME, move this conditional logic to a helper -->
-  <% if webpage.read_status? %>
-      <%= link_to toggle_read_status_webpage_path(webpage), class: "inline-block hover:text-slate-500 text-slate-300" do %>
-        <%= render 'svgs/check-badge' %> 
-      <% end %>
-  <% else %>
-      <%= link_to toggle_read_status_webpage_path(webpage), class: "inline-block hover:text-slate-300 text-slate-500" do %>
-        <%= render 'svgs/check-badge' %> 
-      <% end %>
-  <% end %>
-   
+  <%= toggle_read_status_icon(webpage) %>
+  
   </div>
   <!-- END Mirrors column -->
 
