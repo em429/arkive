@@ -16,18 +16,19 @@ Rails.application.routes.draw do
     scope shallow_path: ":user_id" do
       # Because of the nested and empty path, there would be a route collision
       # by default on /user/:user_id.
-      #
+      # 
       # To avoid this, we explicitly put :index and :create on /user/:user_id/webpages
       resources :webpages, path: 'webpages', param: :url_md5_hash, only: [:index, :create]
       
-      # Then create the definition with the simplified, empty path, and exclude :index and :create
-      # Also add path_names for :edit and :new to avoid a route collision and make things clear
-      # when looking at routes.
+      # Then create the definition with the simplified, empty path
       resources :webpages,
                 path: '',
                 param: :url_md5_hash,
                 shallow: true,
+                # Rename the default /edit and /new paths to explicitly signal we are
+                # operating on a webpage: (and to avoid potential route collisions)
                 path_names: { edit: 'edit-webpage', new: 'new-webpage' },
+                # Exclude these, as we defined them above
                 except: [ :index, :create ]
     end
   end
