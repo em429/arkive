@@ -23,11 +23,11 @@
       
       <!-- Edit, Delete ..etc section -->
       <nav class="mb-10 flex space-x-4">
-        <%= link_to "Edit", edit_webpage_path(@webpage), class: "btn-primary" %>
+        <%= link_to "Edit", edit_webpage_path(current_user, @webpage), class: "btn-primary" %>
 
         <%= toggle_read_status_button(@webpage) %>
         
-        <%= link_to "Delete", webpage_path(@webpage),
+        <%= link_to "Delete", webpage_path(current_user, @webpage),
             class: "btn-primary ", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
       </nav>
       

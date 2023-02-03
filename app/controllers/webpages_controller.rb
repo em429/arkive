@@ -40,7 +40,7 @@ class WebpagesController < ApplicationController
         # NOTE: temporarily disabled until I figure out a way to update the title
         # once it is fetched.
         # format.turbo_stream { flash[:now] = notice }
-        format.html { redirect_to webpage_path(@webpage), notice: notice }
+        format.html { redirect_to webpage_path(current_user, @webpage), notice: notice }
       end
       
     else
@@ -58,7 +58,7 @@ class WebpagesController < ApplicationController
 
   def update
     if @webpage.update(webpage_params)
-      redirect_to webpage_path(@webpage), notice: 'Webpage was successfully updated.'
+      redirect_to webpage_path(current_user, @webpage), notice: 'Webpage was successfully updated.'
     else
       render :edit, status: :unprocessable_entity
     end

@@ -5,7 +5,7 @@
 
   <!-- Title column -->
   <div class="p-4 text-sm <%= webpage.read_status? ? 'text-slate-500' : '' %> font-light">
-      <a class="" href="<%= webpage_path(webpage) %>" ><%= webpage.title %></a>
+      <a class="" href="<%= webpage_path(current_user, webpage) %>" ><%= webpage.title %></a>
   </div>
   <!-- END Title column -->
    
