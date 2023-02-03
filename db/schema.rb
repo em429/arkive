@@ -10,57 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_25_231532) do
-  create_table "delayed_jobs", force: :cascade do |t|
-    t.integer "priority", default: 0, null: false
-    t.integer "attempts", default: 0, null: false
-    t.text "handler", null: false
-    t.text "last_error"
-    t.datetime "run_at"
-    t.datetime "locked_at"
-    t.datetime "failed_at"
-    t.string "locked_by"
-    t.string "queue"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.index ["priority", "run_at"], name: "delayed_jobs_priority"
-  end
-
-  create_table "friendly_id_slugs", force: :cascade do |t|
-    t.string "slug", null: false
-    t.integer "sluggable_id", null: false
-    t.string "sluggable_type", limit: 50
-    t.string "scope"
-    t.datetime "created_at"
-    t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
-    t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
-    t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
-  end
-
+ActiveRecord::Schema[7.0].define(version: 1) do
   create_table "users", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "email", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name", null: false
+    t.string "email", null: false
     t.string "password_digest", null: false
-    t.string "remember_digest"
     t.boolean "admin", default: false
-    t.string "slug"
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["slug"], name: "index_users_on_slug", unique: true
   end
 
   create_table "webpages", force: :cascade do |t|
-    t.string "title"
-    t.string "url", null: false
-    t.string "internet_archive_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "title"
+    t.string "url", null: false
+    t.string "url_md5_hash"
+    t.string "internet_archive_url"
     t.boolean "read_status", default: false
     t.text "content"
     t.integer "user_id", null: false
-    t.string "url_md5_hash"
     t.index ["url", "user_id"], name: "index_webpages_on_url_and_user_id", unique: true
+    t.index ["user_id"], name: "index_webpages_on_user_id"
   end
 
+  add_foreign_key "webpages", "users"
 end
