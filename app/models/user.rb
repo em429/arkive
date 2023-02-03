@@ -2,8 +2,6 @@ class User < ApplicationRecord
   ## Settings
   ###########
   has_secure_password
-  extend FriendlyId
-  friendly_id :name, use: :slugged
 
   ## Relations
   ############
