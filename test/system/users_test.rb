@@ -15,7 +15,7 @@ class UsersTest < ApplicationSystemTestCase
     click_on 'New user'
 
     fill_in 'Email', with: @user.email
-    fill_in 'Name', with: @user.name
+    fill_in 'Name', with: @user.username
     click_on 'Create User'
 
     assert_text 'User was successfully created'
@@ -27,7 +27,7 @@ class UsersTest < ApplicationSystemTestCase
     click_on 'Edit this user', match: :first
 
     fill_in 'Email', with: @user.email
-    fill_in 'Name', with: @user.name
+    fill_in 'Name', with: @user.username
     click_on 'Update User'
 
     assert_text 'User was successfully updated'

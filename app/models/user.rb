@@ -11,13 +11,14 @@ class User < ApplicationRecord
   ############
   before_save do
     self.email = email.downcase
-    self.name = name.downcase
+    self.username = username.downcase
+    set_slug
   end
   
 
   ## Validations
   ##############
-  validates :name, presence: true, length: { maximum: 30 }
+  validates :username, uniqueness: true, presence: true, length: { maximum: 14 }
   validates :email, presence: true, length: { maximum: 255 }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.freeze
   validates :email, presence: true, length: { maximum: 255 },
@@ -36,7 +37,14 @@ class User < ApplicationRecord
     message: 'must be 8+ characters, and must include: number, lowercase and uppercase letters.'
   }
   
+  def to_param
+    slug
+  end
 
   private
+
+  def set_slug
+    self.slug = self.username.parameterize
+  end
 
 end
