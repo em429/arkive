@@ -15,8 +15,8 @@
       <%= link_to "+ Add", new_user_webpage_path(current_user, @webpage), data: { turbo_frame: dom_id(Webpage.new) } %>
       
       <% if current_page?(root_url) %>
-        <%= link_to "Show All", filtered_webpages_path(:all) %>
-      <% else current_page?(filtered_webpages_path(:read)) %>
+        <%= link_to "Show All", filtered_webpages_path(current_user, :all) %>
+      <% else current_page?(filtered_webpages_path(current_user, :read)) %>
         <%= link_to "Show Unread Only", root_path %>
       <% end %>
     </div>
