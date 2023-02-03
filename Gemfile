@@ -74,8 +74,10 @@ group :test do
   gem 'webdrivers'
 end
 
-gem 'net-http'
-gem 'nokogiri'
-gem 'ruby-readability'
 gem 'tailwindcss-rails', '~> 2.0'
-gem 'validate_url'
+
+gem 'validate_url' # adds url validation to ActiveRecord
+
+gem 'net-http'
+gem 'nokogiri' # used for extracting webpage title
+gem 'ruby-readability' # used for extracting webpage content
