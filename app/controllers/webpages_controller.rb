@@ -85,7 +85,7 @@ class WebpagesController < ApplicationController
   private
 
   def set_webpage
-    @webpage = Webpage.find_by(url_md5_hash: params[:url_md5_hash])
+    @webpage = current_user.webpages.find_by(url_md5_hash: params[:url_md5_hash])
   end
 
   def webpage_params
