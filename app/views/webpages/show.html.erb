@@ -27,7 +27,8 @@
 
         <%= toggle_read_status_button(@webpage) %>
         
-        <%= link_to "Delete", webpage_path(@webpage), class: "btn-primary ", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+        <%= link_to "Delete", webpage_path(@webpage),
+            class: "btn-primary ", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
       </nav>
       
     </div>

@@ -24,7 +24,7 @@ class WebpagesController < ApplicationController
   end
 
   def new
-    @webpage = Webpage.new
+    @webpage = current_user.webpages.new
   end
 
   def create
@@ -48,8 +48,8 @@ class WebpagesController < ApplicationController
     end
   end
 
-  ## Methods that need to set @webpages:
-  ######################################
+  ## Methods that need to set @webpage:
+  #####################################
   def show
   end
 
@@ -58,7 +58,7 @@ class WebpagesController < ApplicationController
 
   def update
     if @webpage.update(webpage_params)
-      redirect_to @webpage, notice: 'Webpage was successfully updated.'
+      redirect_to webpage_path(@webpage), notice: 'Webpage was successfully updated.'
     else
       render :edit, status: :unprocessable_entity
     end

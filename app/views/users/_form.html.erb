@@ -24,18 +24,16 @@
 
   <div class="my-5">
     <%= form.label :password %>
-    <%= form.password_field :password, class: 'form-control  block shadow rounded-md border border-slate-200 outline-none px-3 py-2 mt-2 w-full ' %>
+    <%= form.password_field :password, class: 'block shadow rounded-md border border-slate-200 outline-none px-3 py-2 mt-2 w-full ' %>
   </div>
       
   <div class="my-5">
     <%= form.label :password_confirmation, "Confirm password" %>
-    <%= form.password_field :password_confirmation, class: 'form-control block shadow rounded-md border border-slate-200 outline-none px-3 py-2 mt-2 w-full ' %>
+    <%= form.password_field :password_confirmation, class: 'block shadow rounded-md border border-slate-200 outline-none px-3 py-2 mt-2 w-full ' %>
   </div>
 
   <div class="inline">
     <%= form.submit class: "btn-primary" %>
   </div>
-
-
   
 <% end %>

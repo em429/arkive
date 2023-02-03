@@ -1,14 +1,15 @@
 <div class="p-2 w-full">
 
-  <% webpage.errors.full_messages_for(:title).each do |message| %>
+  <% @webpage.errors.full_messages_for(:title).each do |message| %>
     <div id="error_explanation"><%= message %></div>
   <% end %>
 
-  <% webpage.errors.full_messages_for(:url).each do |message| %>
+  <% @webpage.errors.full_messages_for(:url).each do |message| %>
     <div id="error_explanation"><%= message %></div>
   <% end %>
   
-  <%= form_with model: @webpage, class: "flex space-x-2" do |form| %>
+  <%= form_with model: model, local: true,
+      class: "flex space-x-2" do |form| %>
 
       <!-- Left side: title and url -->
       <%= form.text_field :title, class: "p-2 block shadow rounded-md border border-slate-200 outline-none w-full", placeholder: "Title" %>
@@ -23,7 +24,7 @@
         <% end %>
         
         <%= button_tag type: "button", class: "p-2 shadow bg-slate-200 rounded" do %>
-          <%= link_to webpages_path do %>
+          <%= link_to user_webpages_path(@current_user, @webpage) do %>
             <%= render 'svgs/x-mark' %>
           <% end %>
         <% end %>
