@@ -1,16 +1,16 @@
 <!-- FIXME refactor this to use flex, not grid -->
 <div 
-    class="grid grid-cols-1 sm:grid-cols-5 <%= webpage.read_status? ? 'bg-slate-50 hover:bg-slate-100' : '' %> cursor-pointer transition duration-300 ease-in-out hover:bg-slate-100"
+    class="flex flex-wrap justify-between <%= webpage.read_status? ? 'bg-slate-50 hover:bg-slate-100' : '' %> cursor-pointer transition duration-300 ease-in-out hover:bg-slate-100"
 >
 
   <!-- Title column -->
-  <div class="sm:col-span-4 text-sm <%= webpage.read_status? ? 'text-slate-500' : '' %> font-light px-2 py-2 whitespace-nowrap">
+  <div class="p-4 text-sm <%= webpage.read_status? ? 'text-slate-500' : '' %> font-light">
       <a class="" href="<%= webpage_path(webpage) %>" ><%= webpage.title %></a>
   </div>
   <!-- END Title column -->
    
   <!-- Mirrors column -->
-  <div class="sm:justify-self-end sm:col-span-1 space-x-2 text-sm font-light px-2 py-2 whitespace-nowrap">
+  <div class="pt-3 px-4 space-x-2 text-sm font-light">
   
     <span class="<%= webpage.read_status? ? 'text-slate-300' : 'text-slate-500' %> inline-block text-xs italic">
       ~<%= pluralize(webpage.reading_time, 'min') %>
@@ -32,7 +32,7 @@
     </span>
     <!-- END Internet Archive URL Icon -->
   
-  <%= toggle_read_status_icon(webpage) %>
+    <%= toggle_read_status_icon(webpage) %>
   
   </div>
   <!-- END Mirrors column -->
