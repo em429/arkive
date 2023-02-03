@@ -1,12 +1,15 @@
 class Webpage < ApplicationRecord
   belongs_to :user
+  
   validates :url, presence: true, url: true,
                   uniqueness: { scope: :user_id, message: 'already in archive' }
   validates :user_id, presence: true
   
   scope :ordered, -> { order(id: :desc) }
+  scope :recent, ->(max=5) { ordered.limit(max) }
   scope :unread, -> { ordered.where(read_status: false) }
   scope :read, -> { ordered.where(read_status: true) }
+
 
   IA_GET_API = 'https://web.archive.org/web'
 
