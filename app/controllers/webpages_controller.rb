@@ -16,8 +16,10 @@ class WebpagesController < ApplicationController
       @webpages = current_user.webpages.unread
     when 'read'
       @webpages = current_user.webpages.read
-    else
+    when 'all'
       @webpages = current_user.webpages.ordered
+    else # show unread only by default
+      @webpages = current_user.webpages.unread
     end
   end
 
