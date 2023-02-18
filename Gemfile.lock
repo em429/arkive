@@ -108,7 +108,7 @@ GEM
     loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
-    mail (2.8.0.1)
+    mail (2.8.1)
       mini_mime (>= 0.1.1)
       net-imap
       net-pop
@@ -255,7 +255,7 @@ DEPENDENCIES
   net-http
   nokogiri
   puma (~> 5.0)
-  rails (~> 7.0.4)
+  rails (~> 7.0.4.2)
   rubocop-rails
   ruby-readability
   selenium-webdriver
