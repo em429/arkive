@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
     
     if user&.authenticate(params[:session][:password])
       session[:user_id] = user.id
-      redirect_to (session[:intended_url] || user), notice: "Welcome back, #{user.name}"
+      redirect_to (session[:intended_url] || user), notice: "Welcome back, #{user.username}"
       session[:intended_url] = nil
     else
       flash.now[:alert] = 'Invalid email/password combination'
