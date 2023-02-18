@@ -18,6 +18,8 @@ class ApplicationController < ActionController::Base
     store_location
     redirect_to login_path, alert: "Log-in required" unless current_user
   end
-  
+
+  helper_method :current_user
+  helper_method :current_user?
   
 end
