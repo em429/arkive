@@ -82,3 +82,5 @@ gem 'addressable'
 gem 'net-http'
 gem 'nokogiri' # used for extracting webpage title
 gem 'ruby-readability' # used for extracting webpage content
+
+gem "dockerfile-rails", ">= 1.1", :group => :development
