@@ -1,10 +1,5 @@
 require 'application_system_test_case'
 
-# Selenium::WebDriver::Chrome::Service.driver_path = Rails.root.join( "lib", "/nix/store/2rbx4idiw1l3m2bpj66dbcs6jfpgvm13-chromedriver-103.0.5060.24/bin/chromedriver" ).to_s
-
-Capybara::Selenium::Driver.new(app, browser: :chrome,
-                                    driver_path: '/nix/store/2rbx4idiw1l3m2bpj66dbcs6jfpgvm13-chromedriver-103.0.5060.24/bin/chromedriver')
-
 class WebpagesTest < ApplicationSystemTestCase
   setup do
     @webpage = webpages(:first)
