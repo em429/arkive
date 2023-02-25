@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
-nix-shell --command zsh \
-          -p ruby_3_1 \
-          mailcatcher nodejs chromedriver ffmpeg
-
-gem install solargraph
-gem install foreman
+nix shell nixpkgs#ruby_3_1 \
+          nixpkgs#nodejs \
+          nixpkgs#ungoogled-chromium \
+          nixpkgs#chromedriver \
+          nixpkgs#ffmpeg
