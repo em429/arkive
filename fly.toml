@@ -1,33 +1,24 @@
-# fly.toml file generated for arkive on 2023-01-22T16:18:40+01:00
+# fly.toml file generated for arkive on 2023-02-22T23:38:46+01:00
 
 app = "arkive"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
 
-[build]
-  [build.args]
-    BUILD_COMMAND = "bin/rails fly:build"
-    SERVER_COMMAND = "bin/rails fly:server"
-
-[deploy]
-  release_command = "bin/rails fly:release"
-
 [env]
-  PORT = "8080"
-  SERVER_COMMAND = "bundle exec puma -C config/puma.rb"
+  DATABASE_URL = "sqlite3:///mnt/arkive_vol/production.sqlite3"
 
-[experimental]
-  allowed_public_ports = []
-  auto_rollback = true
 
 [mounts]
-  destination = "/mnt/arkive_vol"
   source = "arkive_vol"
+  destination = "/mnt/arkive_vol"
+
+[experimental]
+  auto_rollback = true
 
 [[services]]
   http_checks = []
-  internal_port = 8080
+  internal_port = 3000
   processes = ["app"]
   protocol = "tcp"
   script_checks = []
@@ -52,5 +43,7 @@ processes = []
     timeout = "2s"
 
 [[statics]]
-  guest_path = "/app/public"
+  guest_path = "/rails/public"
   url_prefix = "/"
+
+  
