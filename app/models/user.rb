@@ -31,11 +31,10 @@ class User < ApplicationRecord
     (?=.{8,}) # At least 8 characters long
     (?=.*\d) # At least one number
     (?=.*[a-z]) # At least one lowercase
-    (?=.*[A-Z]) # At least one uppercase
   /x
   validates :password, format: {
     with: PASSWORD_REQUIREMENTS,
-    message: 'must be 8+ characters, and must include: number, lowercase and uppercase letters.'
+    message: 'must be 8+ characters, and must include at least a number.'
   }
   
   def to_param
