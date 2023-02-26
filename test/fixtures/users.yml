@@ -1,39 +1,39 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-michael:
-  name: Michael Example
-  email: michael@example.com
-  password_digest: <%= User.digest('password') %>
+mary:
+  username: Mary Doe
+  email: mary@example.com
+  password_digest: <%= BCrypt::Password.create('asdf1234') %>
   # activated: true
   # activated_at: <%= Time.zone.now %>
 
-archer:
-  name: Sterling Archer
+john:
+  username: John Doe
   email: duchess@example.gov
-  password_digest: <%= User.digest('password') %>
+  password_digest: <%= BCrypt::Password.create('asdf1234') %>
   # activated: true
   # activated_at: <%= Time.zone.now %>
 
 lana:
-  name: Lana Kane
-  email: hands@example.gov
-  password_digest: <%= User.digest('password') %>
+  username: Lana Kane
+  email: lana@example.gov
+  password_digest: <%= BCrypt::Password.create('asdf1234') %>
   # activated: true
   # activated_at: <%= Time.zone.now %>
 
 admin:
-  name: Malory Archer
-  email: boss@example.gov
-  password_digest: <%= User.digest('password') %>
+  username: Malory Archer
+  email: admin@test.com
+  password_digest: <%= BCrypt::Password.create('asdf1234') %>
   admin: true
   # activated: true
   # activated_at: <%= Time.zone.now %>
 
 <% 30.times do |n| %>
 user_<%= n %>:
-  name:  <%= "User #{n}" %>
+  username:  <%= "User #{n}" %>
   email: <%= "user-#{n}@example.com" %>
-  password_digest: <%= User.digest('password') %>
+  password_digest: <%= BCrypt::Password.create('asdf1234') %>
   # activated: true
   # activated_at: <%= Time.zone.now %>
 <% end %>

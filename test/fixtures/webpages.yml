@@ -5,21 +5,21 @@ one:
   url: "https://fly.io/ruby-dispatch/semi-static-websites/"
   internet_archive_url: "https://web.archive.org/web/https://fly.io/ruby-dispatch/semi-static-websites/"
   created_at: <%= 3.years.ago %>
-  user: michael
+  user: mary
 
 two:
   title: "The Durable Business Series (Part I)"
   url: "https://tinylittlebusinesses.com/the-durable-business-series-part-1/"
   internet_archive_url: "https://web.archive.org/web/https://tinylittlebusinesses.com/the-durable-business-series-part-1/"
   created_at: <%= 10.minutes.ago %>
-  user: michael
+  user: mary
 
 three:
   title: "The Durable Business Series (Part I)"
   url: "https://nr23.net/alternative/free_parties/index.htm"
   internet_archive_url: "https://web.archive.org/web/https://nr23.net/alternative/free_parties/index.htm"
   created_at: <%= 2.hours.ago %>
-  user: archer
+  user: john
 
 most_recent:
   title: "My Writing Process"

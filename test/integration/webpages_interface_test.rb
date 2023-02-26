@@ -2,7 +2,7 @@ require 'test_helper'
 
 class WebpagesInterfaceTest < ActionDispatch::IntegrationTest
   def setup
-    @user = users(:michael)
+    @user = users(:mary)
   end
 
   test 'webpage interface' do
@@ -41,7 +41,7 @@ class WebpagesInterfaceTest < ActionDispatch::IntegrationTest
     # end
 
     # Visit different user (no delete links).
-    # get user_path(users(:archer))
+    # get user_path(users(:john))
     # assert_select 'a', { text: 'delete', count: 0 }
   end
 end

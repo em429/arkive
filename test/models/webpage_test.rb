@@ -2,7 +2,7 @@ require 'test_helper'
 
 class WebpageTest < ActiveSupport::TestCase
   def setup
-    @user = users(:michael)
+    @user = users(:mary)
     @webpage = @user.webpages.build(title: "Hey it's a title!",
                                     url: 'https://lobste.rs')
   end

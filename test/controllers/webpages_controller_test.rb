@@ -21,7 +21,7 @@ class WebpagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should redirect destroy for wrong webpage' do
-    log_in_as(users(:archer))
+    log_in_as(users(:john))
     webpage = webpages(:two)
     assert_no_difference 'Webpage.count' do
       delete webpage_path(webpage)
@@ -31,7 +31,7 @@ class WebpagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should be able to destroy own webpage' do
-    log_in_as(users(:archer))
+    log_in_as(users(:john))
     webpage = webpages(:three)
     assert_difference 'Webpage.count', -1 do
       delete webpage_path(webpage)

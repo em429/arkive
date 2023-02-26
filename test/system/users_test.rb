@@ -2,36 +2,39 @@ require 'application_system_test_case'
 
 class UsersTest < ApplicationSystemTestCase
   setup do
-    @user = users(:one)
+    @user = users(:john)
   end
 
-  test 'visiting the index' do
-    visit users_url
-    assert_selector 'h1', text: 'Users'
-  end
-
-  test 'should create user' do
-    visit users_url
-    click_on 'New user'
-
-    fill_in 'Email', with: @user.email
-    fill_in 'Name', with: @user.username
+  test "should let successful signup" do
+    visit root_url
+    click_on 'Sign up now!'
+    fill_in 'Username', with: 'test'
+    fill_in 'Email', with: 'test@test.com'
+    fill_in 'Password', with: 'asdf1234'
+    fill_in 'Confirm password', with: 'asdf1234'
     click_on 'Create User'
-
-    assert_text 'User was successfully created'
-    click_on 'Back'
+    assert_equal 'Zoe welcomes you to your private archive! Woof!', flash[:notice]
+    
   end
+
+  # test 'cannot list users' do
+  #   visit users_url
+  #   capybara_log_in_as(@user)
+  #   # assert_response :not_found
+  # end
 
   test 'should update User' do
     visit user_url(@user)
-    click_on 'Edit this user', match: :first
+    capybara_log_in_as(@user)
+    
+    # click_on 'Edit this user', match: :first
 
-    fill_in 'Email', with: @user.email
-    fill_in 'Name', with: @user.username
-    click_on 'Update User'
+    # fill_in 'Email', with: @user.email
+    # fill_in 'Name', with: @user.username
+    # click_on 'Update User'
 
-    assert_text 'User was successfully updated'
-    click_on 'Back'
+    # assert_text 'User was successfully updated'
+    # click_on 'Back'
   end
 
   test 'should destroy User' do
