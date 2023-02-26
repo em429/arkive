@@ -16,9 +16,8 @@ class ActiveSupport::TestCase
 end
 
 class ActionDispatch::IntegrationTest
-  # Log in as a particular user.
-  def log_in_as(user, password: 'password')
-    post login_path, params: { session: { email: user.email,
-                                          password: password } }
+  def log_in_as(user, password: 'asdf1234')
+    post session_url(email: user.email, password: password)
+    assert_equal "Welcome back, #{user.username}!", flash[:notice]
   end
 end
