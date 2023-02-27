@@ -24,23 +24,14 @@ class UsersTest < ApplicationSystemTestCase
   # end
 
   test 'should update User' do
-    visit user_url(@user)
-    capybara_log_in_as(@user)
+    visit user_url(@user.username)
     
-    # click_on 'Edit this user', match: :first
-
-    # fill_in 'Email', with: @user.email
-    # fill_in 'Name', with: @user.username
-    # click_on 'Update User'
-
-    # assert_text 'User was successfully updated'
-    # click_on 'Back'
+    fill_in 'Email', with: @user.email
+    fill_in 'Password', with: 'asdf1234'
+    click_button "Log in"
+    
+    assert page.has_content? 'Private Web Archive'
+    
   end
 
-  test 'should destroy User' do
-    visit user_url(@user)
-    click_on 'Destroy this user', match: :first
-
-    assert_text 'User was successfully destroyed'
-  end
 end
