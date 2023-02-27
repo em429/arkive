@@ -40,3 +40,5 @@
 
 .rubocop_todo.yml
 core
+.devenv
+.direnv
