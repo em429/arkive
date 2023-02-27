@@ -12,7 +12,7 @@
   
   <div>
     <div class="space-x-3  text-sm sm:text-md text-slate-800 underline font-medium">
-      <%= link_to "+ Add", new_user_webpage_path(current_user, @webpage), data: { turbo_frame: dom_id(Webpage.new) } %>
+      <%= link_to "+ Add", new_user_webpage_path(current_user), data: { turbo_frame: dom_id(Webpage.new) } %>
       
       <% if current_page?(root_url) %>
         <%= link_to "Show All", filtered_webpages_path(current_user, :all) %>
