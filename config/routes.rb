@@ -28,8 +28,8 @@ Rails.application.routes.draw do
                 # Rename the default /edit and /new paths to explicitly signal we are
                 # operating on a webpage: (and to avoid potential route collisions)
                 path_names: { edit: 'edit-webpage', new: 'new-webpage' },
-                # Exclude these, as we defined them above
-                except: [ :index, :create ]
+                # Exclude index and create, as we defined them above
+                only: [:show, :new, :edit, :update, :destroy]
     end
   end
  
