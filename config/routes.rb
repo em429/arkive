@@ -32,13 +32,15 @@ Rails.application.routes.draw do
                 only: [:show, :new, :edit, :update, :destroy]
     end
   end
+
+  resource :session, only: [:new, :create, :destroy]
  
   get '/:user_id/:url_md5_hash/mark_read' => 'webpages#mark_read', as: 'mark_read'
   get '/:user_id/:url_md5_hash/mark_unread' => 'webpages#mark_unread', as: 'mark_unread'
   get '/:user_id/filter/:filter' => 'webpages#index', as: 'filtered_webpages'
 
+  # Vanity URLs. Must map to an existing canonical resource URL
   get '/signup', to: 'users#new'
-
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
