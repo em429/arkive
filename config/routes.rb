@@ -5,11 +5,15 @@ Rails.application.routes.draw do
     resources :webpages
   end
 
-  resource :session, only: [ :new, :create, :destroy ]
-
   resources :webpage_statuses, only: [ :update ]
+
+  namespace :api do
+    resources :webpages, only: [ :create ]
+  end
+
+  resource :session, only: [ :new, :create, :destroy ]
  
-  # Vanity URLs. Must map to an existing canonical resource URL
+  # Custom routes - must map to an existing canonical resource URL
   get '/signup', to: 'users#new'
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
