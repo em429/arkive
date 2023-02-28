@@ -26,8 +26,4 @@ class Webpage < ApplicationRecord
     end
   end
 
-  def title_missing?
-    title.blank?
-  end
-
 end
