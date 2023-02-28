@@ -8,7 +8,7 @@
     <div id="error_explanation"><%= message %></div>
   <% end %>
   
-  <%= form_with model: model, local: true,
+  <%= form_with model: [ user, model ], local: true,
       class: "flex space-x-2" do |form| %>
 
       <!-- Left side: title and url -->
@@ -24,7 +24,7 @@
         <% end %>
         
         <%= button_tag type: "button", class: "p-2 shadow bg-slate-200 rounded" do %>
-          <%= link_to user_webpages_path(@current_user, @webpage) do %>
+          <%= link_to user_webpages_path(@current_user) do %>
             <%= render 'svgs/x-mark' %>
           <% end %>
         <% end %>

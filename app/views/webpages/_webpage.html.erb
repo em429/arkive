@@ -1,23 +1,22 @@
-<!-- FIXME refactor this to use flex, not grid -->
 <div 
-    class="flex flex-wrap justify-between <%= webpage.read_status? ? 'bg-slate-50 hover:bg-slate-100' : '' %> cursor-pointer transition duration-300 ease-in-out hover:bg-slate-100"
+    class="flex flex-wrap justify-between <%= webpage.status_read? ? 'bg-slate-50 hover:bg-slate-100' : '' %> cursor-pointer transition duration-300 ease-in-out hover:bg-slate-100"
 >
 
   <!-- Title column -->
-  <div class="p-4 text-sm <%= webpage.read_status? ? 'text-slate-500' : '' %> font-light">
-      <a class="" href="<%= webpage_path(current_user, webpage) %>" ><%= webpage.title %></a>
+  <div class="p-4 text-sm <%= webpage.status_read? ? 'text-slate-500' : '' %> font-light">
+      <a class="" href="<%= user_webpage_path(current_user, webpage) %>" ><%= webpage.title %></a>
   </div>
   <!-- END Title column -->
    
   <!-- Mirrors column -->
   <div class="pt-3 px-4 space-x-2 text-sm font-light">
   
-    <span class="<%= webpage.read_status? ? 'text-slate-300' : 'text-slate-500' %> inline-block text-xs italic">
+    <span class="<%= webpage.status_read? ? 'text-slate-300' : 'text-slate-500' %> inline-block text-xs italic">
       ~<%= pluralize(webpage.reading_time, 'min') %>
     </span>
   
     <!-- Original URL Icon FIXME: hover active check is spaghetti code here and everywhere -->
-    <span class="inline-block <%= webpage.read_status? ? 'text-slate-300 hover:text-slate-500' : 'text-slate-500 hover:text-slate-300' %> ">
+    <span class="inline-block <%= webpage.status_read? ? 'text-slate-300 hover:text-slate-500' : 'text-slate-500 hover:text-slate-300' %> ">
       <a href="<%= webpage.url %>">
         <%= render 'svgs/link' %>
       </a>
@@ -25,7 +24,7 @@
     <!-- END Original URL Icon -->
     
     <!-- Internet Archive URL Icon -->
-    <span class="inline-block <%= webpage.read_status? ? 'text-slate-300 hover:text-slate-500' : 'text-slate-500 hover:text-slate-300' %> ">
+    <span class="inline-block <%= webpage.status_read? ? 'text-slate-300 hover:text-slate-500' : 'text-slate-500 hover:text-slate-300' %> ">
       <a href="<%= webpage.internet_archive_url %>">
         <%= render 'svgs/archive-box' %>
       </a>

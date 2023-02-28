@@ -37,7 +37,7 @@ class WebpagesInterfaceTest < ActionDispatch::IntegrationTest
     # assert_select 'a', text: 'delete'
     # first_webpage = @user.webpages.paginate(page: 1).first
     # assert_difference 'Webpage.count', -1 do
-    #   delete webpage_path(first_webpage)
+    #   delete user_webpage_path(first_webpage)
     # end
 
     # Visit different user (no delete links).

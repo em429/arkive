@@ -29,7 +29,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_03_214219) do
     t.string "url", null: false
     t.string "url_md5_hash"
     t.string "internet_archive_url"
-    t.boolean "read_status", default: false
+    t.integer "status", default: 0
     t.text "content"
     t.integer "user_id", null: false
     t.index ["url", "user_id"], name: "index_webpages_on_url_and_user_id", unique: true

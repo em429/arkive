@@ -1,8 +1,3 @@
-<!-- Logo -->
-<%= link_to root_path do %>
-  <%= image_tag "arkive_mascot.webp", class: "w-40 mx-auto mb-10" %>
-<% end %>
-
 <!-- Start of double column on top of page -->
 <div class="flex md:flex-row flex-col md:justify-between">
   
@@ -14,10 +9,13 @@
     <div class="space-x-3  text-sm sm:text-md text-slate-800 underline font-medium">
       <%= link_to "+ Add", new_user_webpage_path(current_user), data: { turbo_frame: dom_id(Webpage.new) } %>
       
-      <% if current_page?(root_url) %>
-        <%= link_to "Show All", filtered_webpages_path(current_user, :all) %>
-      <% else current_page?(filtered_webpages_path(current_user, :read)) %>
-        <%= link_to "Show Unread Only", root_path %>
+      <% if current_page?(root_url) || current_page?(user_webpages_path(current_user, filter: :unread)) %>
+     
+        <%= link_to "Showing Unread Only", user_webpages_path(current_user, filter: :all) %>
+
+      <% else current_page?(user_webpages_path(current_user, filter: :read)) %>
+
+        <%= link_to "Showing All", root_path %>
       <% end %>
     </div>
     

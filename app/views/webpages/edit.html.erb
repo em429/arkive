@@ -1,4 +1,4 @@
 <h1>Edit archived webpage</h1>
 <%= turbo_frame_tag @webpage do %>
-  <%= render "form", model: @webpage %>
+  <%= render "webpages/form", model: @webpage, user: current_user %>
 <% end %>

@@ -8,5 +8,5 @@
      turbo_frame_tag @webpage
  -->
 <%= turbo_frame_tag @webpage do %>
-  <%= render "form", model: [current_user, @webpage] %>
+  <%= render "webpages/form", model: @webpage, user: current_user %>
 <% end %>
