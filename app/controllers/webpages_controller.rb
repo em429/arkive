@@ -33,7 +33,7 @@ class WebpagesController < ApplicationController
 
     # Save to database
     if @webpage.save
-      FetchPageDataJob.perform_later(@webpage, from_archive=false)
+      FetchPageDataJob.perform_later(@webpage)
       SubmitToInternetArchiveJob.perform_later(@webpage)
       
       respond_to do |format|

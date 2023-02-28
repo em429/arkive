@@ -16,6 +16,7 @@ class Webpage < ApplicationRecord
 
   before_create -> { self.internet_archive_url = "#{IA_GET_API}/#{url}" }
 
+  # TODO: extract to lib / model
   def reading_time
     words_per_minute = 230
     begin

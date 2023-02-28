@@ -76,7 +76,7 @@ class FetchPageDataJob < ApplicationJob
     # Write 'error' into content column, so we can tell between fetching and failed states
   end
   
-  def perform(webpage, from_archive=false)
+  def perform(webpage, from_archive: false)
     webpage.update(
       content: fetch_readable_content(webpage, from_archove=from_archive),
       title: fetch_title(webpage)
