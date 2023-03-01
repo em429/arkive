@@ -1,6 +1,7 @@
 class Webpage < ApplicationRecord
   belongs_to :user
   
+  before_validation :add_url_protocol_if_missing
   validates :url, presence: true, url: true,
                   uniqueness: { scope: :user_id, message: 'already in archive' }
   validates :user_id, presence: true
@@ -24,6 +25,10 @@ class Webpage < ApplicationRecord
       (text.scan(/\w+/).length / words_per_minute).to_i
     rescue NoMethodError
       '?'
+  private
+  def add_url_protocol_if_missing
+    unless url[/\Ahttp:\/\//] || url[/\Ahttps:\/\//]
+      self.url = "http://#{url}"
     end
   end
 
