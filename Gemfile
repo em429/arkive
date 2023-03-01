@@ -80,7 +80,6 @@ end
 
 gem 'tailwindcss-rails', '~> 2.0'
 
-gem 'validate_url' # adds url validation to ActiveRecord
 
 gem 'addressable'
 gem 'net-http'
