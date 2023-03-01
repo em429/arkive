@@ -7,8 +7,10 @@ Rails.application.routes.draw do
 
   resources :webpage_statuses, only: [ :update ]
 
-  namespace :api do
-    resources :webpages, only: [ :create ]
+  namespace :api, defaults: { format: :json } do
+    namespace :v1 do
+      resources :webpages, only: [ :create ]
+    end
   end
 
   resource :session, only: [ :new, :create, :destroy ]

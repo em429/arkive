@@ -1,11 +1,8 @@
-class Api::WebpagesController < ApiController
+class Api::V1::WebpagesController < ApiController
   include ApiResponders
-    
-  skip_forgery_protection
-  skip_before_action :require_login
 
   def create
-    @user = User.find(1)
+    # @user defined in ApiController.require_basic_auth
     @webpage = @user.webpages.build(webpage_params)
 
     # Save to database
@@ -17,7 +14,7 @@ class Api::WebpagesController < ApiController
         context: { webpage: @webpage.as_json })
       
     else
-      respond_with_error("Couldn't add webpage to Arkive")
+      respond_with_error(@webpage.errors)
     end
   end
 
