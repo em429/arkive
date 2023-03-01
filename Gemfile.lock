@@ -100,6 +100,13 @@ GEM
       rails
     e2mmap (0.1.0)
     erubi (1.12.0)
+    factory_bot (6.2.1)
+      activesupport (>= 5.0.0)
+    factory_bot_rails (6.2.0)
+      factory_bot (~> 6.2.0)
+      railties (>= 5.0.0)
+    faker (3.1.1)
+      i18n (>= 1.8.11, < 2)
     foreman (0.87.2)
     globalid (1.1.0)
       activesupport (>= 5.0)
@@ -267,9 +274,6 @@ GEM
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.4.2)
     uri (0.12.0)
-    validate_url (1.0.15)
-      activemodel (>= 3.0.0)
-      public_suffix
     web-console (4.2.0)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
@@ -300,6 +304,8 @@ DEPENDENCIES
   capybara
   debug
   dockerfile-rails (>= 1.1)
+  factory_bot_rails
+  faker
   foreman
   importmap-rails
   jbuilder
@@ -318,7 +324,6 @@ DEPENDENCIES
   tailwindcss-rails (~> 2.0)
   turbo-rails
   tzinfo-data
-  validate_url
   web-console
   webdrivers
 
