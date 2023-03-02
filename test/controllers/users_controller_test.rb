@@ -2,8 +2,9 @@ require 'test_helper'
 
 class UsersControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @admin_user = users(:admin)
-    @regular_user = users(:john)
+    @admin = FactoryBot.create(:admin_user)
+
+    @user = FactoryBot.create(:user)
   end
 
   test 'should get new' do
@@ -13,48 +14,48 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test 'should redirect index when not logged in' do
     get users_path
-    assert_redirected_to login_url
+    assert_redirected_to new_session_url
   end
 
   test 'should redirect edit when not logged in' do
-    get edit_user_path(@admin_user)
+    get edit_user_path(@admin)
     assert_not flash.empty?
-    assert_redirected_to login_url
+    assert_redirected_to new_session_url
   end
 
   test 'should redirect update when not logged in' do
-    patch user_path(@admin_user), params: { user: { name: @admin_user.name,
-                                                    email: @admin_user.email } }
+    patch user_path(@admin), params: { user: { username: @admin.username,
+                                                    email: @admin.email } }
     assert_not flash.empty?
-    assert_redirected_to login_url
+    assert_redirected_to new_session_url
   end
 
   test 'should redirect edit when logged in as wrong user' do
-    log_in_as(@regular_user)
-    get edit_user_path(@admin_user)
-    assert flash.empty?
+    log_in_as(@user)
+    get edit_user_path(@admin)
+    assert_not flash.empty?
     assert_redirected_to root_url
   end
 
   test 'should redirect update when logged in as wrong user' do
-    log_in_as(@regular_user)
-    patch user_path(@admin_user), params: { user: { name: @admin_user.name,
-                                                    email: @admin_user.email } }
-    assert flash.empty?
-    assert_redirected_to root_url
+     log_in_as(@user)
+     patch user_path(@admin), params: { user: { username: @admin.username,
+                                                     email: @admin.email } }
+     assert_not flash.empty?
+     assert_redirected_to root_url
   end
 
   test 'should redirect destroy when not logged in' do
     assert_no_difference 'User.count' do
-      delete user_path(@admin_user)
+      delete user_path(@admin)
     end
-    assert_redirected_to login_url
+    assert_redirected_to new_session_url
   end
 
   test 'should redirect destroy when logged in as a non-admin' do
-    log_in_as(@regular_user)
+    log_in_as(@user)
     assert_no_difference 'User.count' do
-      delete user_path(@admin_user)
+      delete user_path(@admin)
     end
     assert_redirected_to root_url
   end
