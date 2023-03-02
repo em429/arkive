@@ -22,6 +22,9 @@ admin = FactoryBot.create(:user, :as_admin,
 end
 
 FactoryBot.create(:webpage, user: admin)
-FactoryBot.create(:webpage, url: "lobste.rs", user: admin)
+FactoryBot.create(:webpage,
+  title: "Lobste.rs", url: "lobste.rs", user: admin)
+FactoryBot.create(:webpage,
+  title: "MEM Site", url: "mem.cool", user: admin)
 
 puts "[ db/seeds.rb ] Done"
