@@ -16,8 +16,9 @@ class ActiveSupport::TestCase
 end
 
 class ActionDispatch::IntegrationTest
-  def log_in_as(user, password: 'asdf1234')
-    post session_url(email: user.email, password: password)
+  def log_in_as(user)
+    post session_url(
+      params: { session: { email: user.email, password: user.password }})
     assert_equal "Welcome back, #{user.username}!", flash[:notice]
   end
 end
