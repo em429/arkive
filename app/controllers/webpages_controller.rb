@@ -84,7 +84,7 @@ class WebpagesController < ApplicationController
   end
 
   def check_user_owns_page
-    @webpage = current_user.webpages.find(params[:id])
+    @webpage = current_user.webpages.find_by(id: params[:id])
     redirect_to(root_url, status: :see_other) if @webpage.nil?
   end
 end
