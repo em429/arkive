@@ -3,7 +3,6 @@ require 'test_helper'
 class UsersControllerTest < ActionDispatch::IntegrationTest
   def setup
     @admin = FactoryBot.create(:admin_user)
-
     @user = FactoryBot.create(:user)
   end
 

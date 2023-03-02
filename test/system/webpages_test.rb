@@ -1,51 +1,68 @@
 require 'application_system_test_case'
 
+# TODO assert flash notices happen too
 class WebpagesTest < ApplicationSystemTestCase
   setup do
-    @webpage = webpages(:first)
+    @user = FactoryBot.create(:user)
+    @webpage = FactoryBot.create(:webpage, user: @user)
+  end
+
+  test 'should not show webpage without login' do
+    visit user_webpage_path(@user, @webpage)
+    assert_text 'Log-in required'
+  end
+
+  test 'should not show other users webpage' do
+
+    @other_user = FactoryBot.create(:user)
+    @other_webpage = FactoryBot.create(:webpage, user: @other_user)
+    visit user_webpage_path(@other_user, @other_webpage)
+    capybara_log_in_as(@user)
+
+    assert_no_text @other_webpage.title
+    assert_text 'Private Web Archive'
+
   end
 
   test 'Showing an archived webpage' do
-    visit webpages_path
-    click_link @webpage.name
+    visit user_webpages_path(@user)
+    capybara_log_in_as(@user)
+    assert_selector 'h1', text: 'Private Web Archive'
+    click_link @webpage.title
 
-    assert_selector 'h1', text: @webpage.name
+    assert_selector 'h1', text: @webpage.title
   end
 
   test 'Adding a new webpage to the archive' do
-    visit webpages_path
-    assert_selector 'h1', text: 'Private Web Archive'
+    visit user_webpages_path(@user)
+    capybara_log_in_as(@user)
 
     click_on 'Add'
     fill_in 'Title', with: 'Capybara Webpage'
-    fill_in 'Url', with: 'https://capybara.com'
-
-    assert_selector 'h1', text: 'Private Web Archive'
-    click_on 'Create Webpage'
-
-    assert_selector 'h1', text: 'Private Web Archive'
-    assert_text 'Capybara Webpage'
+    fill_in 'URL', with: 'https://capybara.com'
+    find('form #webpage_url').native.send_keys :enter
+    assert page.has_content? 'Capybara Webpage'
   end
 
   test 'Updating an archived webpage' do
-    visit webpages_path
-    assert_selector 'h1', text: 'Private Web Archive'
-
-    click_on 'EDIT', match: :first
-    assert_selector 'h1', text: 'Private Web Archive'
+    visit user_webpage_path(@user, @webpage)
+    capybara_log_in_as(@user)
+    click_on 'Edit'
 
     fill_in 'Title', with: 'Updated Capybara Webpage'
-    click_on 'Update Webpage'
-
-    assert_selector 'h1', text: 'Private Web Archive'
-    assert_text 'Updated Webpage'
+    find('form #webpage_url').native.send_keys :enter
+    assert page.has_content? 'Updated Capybara Webpage'
   end
 
   test 'Destroying a Webpage' do
-    visit webpages_path
-    assert_text @webpage.name
+    visit user_webpage_path(@user, @webpage)
+    capybara_log_in_as(@user)
+    assert_text @webpage.title
 
-    click_on 'DELETE', match: :first
-    assert_no_text @webpage.name
+    accept_alert do
+      click_on 'Delete', match: :first
+    end
+
+    assert_no_text @webpage.title
   end
 end
