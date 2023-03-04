@@ -1,4 +1,4 @@
-# fly.toml file generated for arkive on 2023-02-22T23:38:46+01:00
+# fly.toml file generated for arkive on 2023-03-04T19:17:59+01:00
 
 app = "arkive"
 kill_signal = "SIGINT"
@@ -8,13 +8,12 @@ processes = []
 [env]
   DATABASE_URL = "sqlite3:///mnt/arkive_vol/production.sqlite3"
 
-
-[mounts]
-  source = "arkive_vol"
-  destination = "/mnt/arkive_vol"
-
 [experimental]
   auto_rollback = true
+
+[mounts]
+  destination = "/mnt/arkive_vol"
+  source = "arkive_vol"
 
 [[services]]
   http_checks = []
@@ -45,5 +44,3 @@ processes = []
 [[statics]]
   guest_path = "/rails/public"
   url_prefix = "/"
-
-  
