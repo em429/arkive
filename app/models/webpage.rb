@@ -15,8 +15,6 @@ class Webpage < ApplicationRecord
 
   default_scope { ordered }
 
-  IA_GET_API = 'https://web.archive.org/web'
-
   before_create -> { self.internet_archive_url = "#{IA_GET_API}/#{url}" }
 
   # TODO: extract to lib / model

@@ -1,10 +1,6 @@
 class SubmitToInternetArchiveJob < ApplicationJob
   queue_as :default
   
-  IA_SAVE_API = 'https://web.archive.org/save'
-  IA_GET_API = 'https://web.archive.org/web'
-  IA_AVAILABILITY_API = 'https://archive.org/wayback/available?url='
-
   def perform(webpage)
     source_uri = Addressable::URI.parse(webpage.url)
     submit_res = Net::HTTP.post_form(URI(IA_SAVE_API), url: source_uri, capture_all: 'on')
