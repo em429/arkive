@@ -36,22 +36,25 @@ class WebpagesTest < ApplicationSystemTestCase
   test 'Adding a new webpage to the archive' do
     visit user_webpages_path(@user)
     capybara_log_in_as(@user)
+    url = Faker::Internet.url
+    title = Faker::Book.title
 
     click_on 'Add'
-    fill_in 'Title', with: 'Capybara Webpage'
-    fill_in 'URL', with: 'https://capybara.com'
+    fill_in 'Title', with: title
+    fill_in 'URL', with: url
     find('form #webpage_url').native.send_keys :enter
-    assert page.has_content? 'Capybara Webpage'
+    assert page.has_content? title
   end
 
   test 'Updating an archived webpage' do
     visit user_webpage_path(@user, @webpage)
     capybara_log_in_as(@user)
     click_on 'Edit'
+    title = Faker::Book.title
 
-    fill_in 'Title', with: 'Updated Capybara Webpage'
+    fill_in 'Title', with: title
     find('form #webpage_url').native.send_keys :enter
-    assert page.has_content? 'Updated Capybara Webpage'
+    assert page.has_content? title
   end
 
   test 'Destroying a Webpage' do
